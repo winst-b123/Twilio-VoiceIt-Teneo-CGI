@@ -37,6 +37,7 @@ var teneoResponse = null;
 var teneoSessionId = "";
 var confidence = "";
 var phone = "";
+var flow = "";
 
 // Initiates the biometric authentication solution
 var userInput = "Authentication";
@@ -73,7 +74,6 @@ class twilio_voice {
                         phone = post.Caller;
                     }
                 }
-
                 // get the caller id
                 const callSid = post.CallSid;
 
@@ -186,6 +186,12 @@ class twilio_voice {
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
+            if("flowName" in req.query) {
+                flow = req.query["flowName"];
+                if(flow=="second") {
+                   userInput = "second stage";   
+                }
+           }
 
             const url = "http://" + req.headers["host"] + "/";
 
