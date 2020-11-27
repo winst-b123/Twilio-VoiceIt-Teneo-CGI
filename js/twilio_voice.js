@@ -187,9 +187,7 @@ class twilio_voice {
 
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             if("flowName" in req.query) {
-                flow = req.query["flowName"];
-                userInput = flow;
-                
+                userInput = req.query["flowName"];   
            }
 
             const url = "http://" + req.headers["host"] + "/";
