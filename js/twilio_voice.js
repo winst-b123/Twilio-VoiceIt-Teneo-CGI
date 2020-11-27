@@ -186,7 +186,7 @@ class twilio_voice {
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
-            userInput = req.url.param("flowName");
+            userInput = req.query["flowName"];   
             if(userInput=="secondstage") {
                 phone="+447397149619";
             }
