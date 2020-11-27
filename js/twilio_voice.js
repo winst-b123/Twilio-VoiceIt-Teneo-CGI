@@ -188,7 +188,12 @@ class twilio_voice {
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             if("flowName" in req.query) {
                 flow = req.query["flowName"];
-                userInput = flow;   
+                if(flow=="secondstage") {
+                   userInput = "test second stage";   
+                }
+                if(flow=="pre-maturity") {
+                   userInput = "pre-maturity";   
+                }
                 
            }
 
