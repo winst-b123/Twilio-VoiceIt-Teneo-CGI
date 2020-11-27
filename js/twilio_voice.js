@@ -187,12 +187,6 @@ class twilio_voice {
             
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             userInput = req.query["flowName"];   
-            if(userInput=="second stage") {
-                phone="+447397149619";
-            }
-           // if("flowName" in req.query) {
-            //    userInput = req.query["flowName"];   
-           //}
 
             const url = "http://" + req.headers["host"] + "/";
 
