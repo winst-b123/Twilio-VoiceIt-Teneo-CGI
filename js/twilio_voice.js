@@ -187,6 +187,9 @@ class twilio_voice {
             
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             userInput = req.query["userInput"];   
+            if(userInput=="End of contract") {
+              phone = "+447397149619";   
+            }
 
             const url = "http://" + req.headers["host"] + "/";
 
