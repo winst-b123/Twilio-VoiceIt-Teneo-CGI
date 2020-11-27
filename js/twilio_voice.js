@@ -186,7 +186,7 @@ class twilio_voice {
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
-            userInput = req.query["flowName"];   
+            userInput = req.query["userInput"];   
 
             const url = "http://" + req.headers["host"] + "/";
 
