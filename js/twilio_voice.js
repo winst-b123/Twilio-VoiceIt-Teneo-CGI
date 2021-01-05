@@ -205,7 +205,7 @@ class twilio_voice {
             client.calls
                 .create({
                     //twiml: '<Response><Redirect method="POST">' + url + '</Redirect></Response>',
-                    url: url,
+                    twiml: '<Response><Say>' + teneoResponse.output.text + '</Say></Response>',
                     to: phone,
                     from: TWILIO_OUTBOUND_NUMBER
                 })
