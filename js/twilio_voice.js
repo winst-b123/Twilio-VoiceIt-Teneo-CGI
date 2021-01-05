@@ -185,8 +185,8 @@ class twilio_voice {
             userInput = "Collections";
 
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-            
-            phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
+            phone = req.query["phone"];  
+            //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             console.log("Phone: " + phone);
             userInput = req.query["userInput"];   
             if(userInput=="End of contract") {
