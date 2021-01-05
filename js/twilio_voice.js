@@ -181,7 +181,7 @@ class twilio_voice {
     handleOutboundCalls() {
 
         return async (req, res) => {
-
+            console.log("IN HANDLE OUTBOUND CALLS!");
             userInput = "Collections";
 
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
