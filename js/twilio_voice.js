@@ -182,8 +182,6 @@ class twilio_voice {
 
         return async (req, res) => {
             console.log("IN HANDLE OUTBOUND CALLS!");
-            userInput = "Collections";
-
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
@@ -195,6 +193,15 @@ class twilio_voice {
              console.log("userInput: " + userInput);
             const url = "http://" + req.headers["host"] + "/";
             console.log("URL: " + url);
+            
+             var parameters = {};
+            parameters["phone"] = phone;
+            var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
+            console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
+             // Add "_phone" to as key to session to make each session, regardless when using call/sms
+             teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
+             console.log("Output response: " + teneoResponse.output.text);
+            
             client.calls
                 .create({
                     twiml: '<Response><Redirect method="POST">' + url + '</Redirect></Response>',
