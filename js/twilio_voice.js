@@ -194,7 +194,7 @@ class twilio_voice {
             }
              console.log("userInput: " + userInput);
             const url = "http://" + req.headers["host"] + "/";
-
+            console.log("URL: " + url);
             client.calls
                 .create({
                     twiml: '<Response><Redirect method="POST">' + url + '</Redirect></Response>',
