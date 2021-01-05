@@ -187,11 +187,12 @@ class twilio_voice {
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             
             phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
+            console.log("Phone: " + phone);
             userInput = req.query["userInput"];   
             if(userInput=="End of contract") {
               phone = "+447397149619";   
             }
-
+             console.log("userInput: " + userInput);
             const url = "http://" + req.headers["host"] + "/";
 
             client.calls
