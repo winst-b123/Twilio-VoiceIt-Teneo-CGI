@@ -74,6 +74,7 @@ class twilio_voice {
                         phone = post.Caller;
                     }
                 }
+                console.log("Phone: " + phone);
                 // get the caller id
                 const callSid = post.CallSid;
 
