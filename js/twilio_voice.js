@@ -191,7 +191,7 @@ class twilio_voice {
               phone = "+447397149619";   
             }
              console.log("userInput: " + userInput);
-            const url = "http://" + req.headers["host"] + "/";
+            const url = "https://" + req.headers["host"] + "/";
             console.log("URL: " + url);
             
              var parameters = {};
