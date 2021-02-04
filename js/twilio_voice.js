@@ -121,7 +121,7 @@ class twilio_voice {
                 var outputMessage="";
                 
                 if(session!="" && userInput.startsWith("Hi")) {
-                    userIhput="switch success";
+                    userIhput="switchover success";
                 }
              
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
@@ -129,6 +129,11 @@ class twilio_voice {
 
                     sessionHandler.setSession(phone, teneoResponse.sessionId);
 
+                if(session!="" && userInput.startsWith("Hi")) {
+                    userInput="";
+                    session="";
+                }
+                
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
                     if(Object.keys(teneoResponse.output.parameters).includes("twilioAction")) {
