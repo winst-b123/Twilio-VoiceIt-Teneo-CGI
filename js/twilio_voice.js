@@ -128,14 +128,14 @@ class twilio_voice {
 
                     sessionHandler.setSession(phone, teneoResponse.sessionId);
                     outputMessage=teneoResponse.output.text;
-                }
+                
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
                     if(Object.keys(teneoResponse.output.parameters).includes("twilioAction")) {
                         twilioAction = teneoResponse.output.parameters["twilioAction"];
                     }
                 }
-
+               }
                 console.log("Output response: " + outputMessage);
 
                 if(twilioAction === postPath.default) {
