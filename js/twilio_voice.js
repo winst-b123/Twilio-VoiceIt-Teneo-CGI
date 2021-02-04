@@ -241,7 +241,7 @@ class twilio_voice {
                 })
                 .then(call =>
                     console.log(JSON.stringify(call))
-                ).then(sessionHandler.setSession(call.sid, teneoSessionId););
+                ).then(sessionHandler.setSession(call.sid, teneoSessionId));
            
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
