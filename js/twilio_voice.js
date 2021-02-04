@@ -38,6 +38,7 @@ var teneoSessionId = "";
 var confidence = "";
 var phone = "";
 var flow = "";
+var session="";
 
 // Initiates the biometric authentication solution
 var userInput = "Authentication";
@@ -75,11 +76,18 @@ class twilio_voice {
                     }
                 }
                 console.log("Phone: " + phone);
+                console.log("In session: " + session);
                 // get the caller id
                 const callSid = post.CallSid;
 
+                if(session!="") {
+                     teneoSessionId = session;
+                     sessionHandler.setSession(phone, teneoSessionId);
+                }
+                else {
                 // check if we have stored an engine sessionid for this caller
                 teneoSessionId = sessionHandler.getSession(phone);
+                }
 
                 // Detect if userinput exists
                 if (post.CallStatus === 'in-progress' && post.SpeechResult) {
@@ -108,12 +116,19 @@ class twilio_voice {
                 var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
 
                 console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
-
+                
+                var outputMessage="";
+                
+                if(session!="" && userInput.startsWith("Hi")) {
+                    outputMessage=userInput;
+                }
+                else
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
-                teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
+                    teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
 
-                sessionHandler.setSession(phone, teneoResponse.sessionId);
-
+                    sessionHandler.setSession(phone, teneoResponse.sessionId);
+                    outputMessage=teneoResponse.output.text;
+                }
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
                     if(Object.keys(teneoResponse.output.parameters).includes("twilioAction")) {
@@ -121,7 +136,7 @@ class twilio_voice {
                     }
                 }
 
-                console.log("Output response: " + teneoResponse.output.text);
+                console.log("Output response: " + outputMessage);
 
                 if(twilioAction === postPath.default) {
                     twilioAction = twilioActions.gather_default;
@@ -142,7 +157,7 @@ class twilio_voice {
                         }).say({
                             voice: twilioVoiceName,
                             language: twilioLanguage
-                        }, teneoResponse.output.text);
+                        }, outputMessage);
                         res.writeHead(200, {'Content-Type': 'text/xml'});
                         res.end(twiml.toString());
                         break;
@@ -153,7 +168,7 @@ class twilio_voice {
                         twiml.say({
                             voice: twilioVoiceName,
                             language: twilioLanguage
-                        }, teneoResponse.output.text);
+                        }, outputMessage);
                         twiml.record({
                             action: postPath.default,
                             maxLength: 5,
@@ -168,7 +183,7 @@ class twilio_voice {
                         twiml.say({
                             voice: twilioVoiceName,
                             language: twilioLanguage
-                        }, teneoResponse.output.text);
+                        }, outputMessage);
                         twiml.hangup();
                         res.writeHead(200, {'Content-Type': 'text/xml'});
                         res.end(twiml.toString());
@@ -206,10 +221,11 @@ class twilio_voice {
                      console.log("Output response: " + teneoResponse.output.text);
             }
             else {
+                session = passedSessionId;
                 teneoSessionId=req.query["session"];   
                  console.log("session: " + teneoSessionId);
                 sessionHandler.setSession(phone, teneoSessionId);
-               //teneoResponse.output.text = "Hi " + userInput +"! Switched to phone as requested.";
+                userInput = "Hi " + userInput +"! Switched to phone as requested.";
             }     
             
            
