@@ -83,6 +83,7 @@ class twilio_voice {
                 if(session!="") {
                      teneoSessionId = session;
                      sessionHandler.setSession(phone, teneoSessionId);
+                    session="";
                 }
                 else {
                 // check if we have stored an engine sessionid for this caller
@@ -120,23 +121,22 @@ class twilio_voice {
                 var outputMessage="";
                 
                 if(session!="" && userInput.startsWith("Hi")) {
-                    outputMessage=userInput;
+                    userIhput="switch success";
                 }
-                else {
+             
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
 
                     sessionHandler.setSession(phone, teneoResponse.sessionId);
-                    outputMessage=teneoResponse.output.text;
-                
+
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
                     if(Object.keys(teneoResponse.output.parameters).includes("twilioAction")) {
                         twilioAction = teneoResponse.output.parameters["twilioAction"];
                     }
                 }
-               }
-                console.log("Output response: " + outputMessage);
+               
+                console.log("Output response: " + teneoResponse.output.text);
 
                 if(twilioAction === postPath.default) {
                     twilioAction = twilioActions.gather_default;
@@ -157,7 +157,7 @@ class twilio_voice {
                         }).say({
                             voice: twilioVoiceName,
                             language: twilioLanguage
-                        }, outputMessage);
+                        }, teneoResponse.output.text);
                         res.writeHead(200, {'Content-Type': 'text/xml'});
                         res.end(twiml.toString());
                         break;
@@ -168,7 +168,7 @@ class twilio_voice {
                         twiml.say({
                             voice: twilioVoiceName,
                             language: twilioLanguage
-                        }, outputMessage);
+                        }, teneoResponse.output.text);
                         twiml.record({
                             action: postPath.default,
                             maxLength: 5,
@@ -183,7 +183,7 @@ class twilio_voice {
                         twiml.say({
                             voice: twilioVoiceName,
                             language: twilioLanguage
-                        }, outputMessage);
+                        }, teneoResponse.output.text);
                         twiml.hangup();
                         res.writeHead(200, {'Content-Type': 'text/xml'});
                         res.end(twiml.toString());
