@@ -220,7 +220,7 @@ class twilio_voice {
                session = passedSessionId;
                 teneoSessionId=passedSessionId;   
                  console.log("session: " + teneoSessionId);
-                userInput = "switch success"; 
+                userInput = "switchover success"; 
             }
                     var parameters = {};
                     parameters["phone"] = phone;
