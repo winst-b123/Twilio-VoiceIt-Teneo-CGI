@@ -240,8 +240,9 @@ class twilio_voice {
                     from: TWILIO_OUTBOUND_NUMBER
                 })
                 .then(call =>
-                    console.log(JSON.stringify(call))
-                ).then(sessionHandler.setSession(call.sid, teneoSessionId));
+                    console.log(JSON.stringify(call)); 
+                   sessionHandler.setSession(call.sid, teneoSessionId);   
+                );
            
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
