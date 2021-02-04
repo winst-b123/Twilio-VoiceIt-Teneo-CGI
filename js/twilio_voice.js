@@ -181,6 +181,7 @@ class twilio_voice {
     handleOutboundCalls() {
 
         return async (req, res) => {
+            const sessionHandler = this.SessionHandler();
             console.log("IN HANDLE OUTBOUND CALLS!");
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
