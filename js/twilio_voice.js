@@ -209,7 +209,7 @@ class twilio_voice {
                 teneoSessionId=req.query["session"];   
                  console.log("session: " + teneoSessionId);
                 sessionHandler.setSession(phone, teneoSessionId);
-               teneoResponse.output.text = "Hi " + userInput +"! Switched to phone as requested.";
+               //teneoResponse.output.text = "Hi " + userInput +"! Switched to phone as requested.";
             }     
             
            
