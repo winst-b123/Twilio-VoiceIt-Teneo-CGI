@@ -194,6 +194,7 @@ class twilio_voice {
             const url = "https://" + req.headers["host"] + "/";
             console.log("URL: " + url);
             const passedSessionId=req.query["session"];  
+            console.log("Passed session: " + passedSessionId);
             if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
                     var parameters = {};
                     parameters["phone"] = phone;
