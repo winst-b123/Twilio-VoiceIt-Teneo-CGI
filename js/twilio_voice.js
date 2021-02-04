@@ -79,7 +79,7 @@ class twilio_voice {
                 const callSid = post.CallSid;
 
                 // check if we have stored an engine sessionid for this caller
-                teneoSessionId = sessionHandler.getSession(callSid);
+                teneoSessionId = sessionHandler.getSession(phone);
 
                 // Detect if userinput exists
                 if (post.CallStatus === 'in-progress' && post.SpeechResult) {
@@ -112,7 +112,7 @@ class twilio_voice {
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                 teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
 
-                sessionHandler.setSession(callSid, teneoResponse.sessionId);
+                sessionHandler.setSession(phone, teneoResponse.sessionId);
 
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
@@ -208,7 +208,7 @@ class twilio_voice {
             else {
                 teneoSessionId=req.query["session"];   
                  console.log("session: " + teneoSessionId);
-                sessionHandler.setSession(callSid, teneoSessionId);
+                sessionHandler.setSession(phone, teneoSessionId);
                teneoResponse.output.text = "Hi " + userInput +"! Switched to phone as requested.";
             }     
             
