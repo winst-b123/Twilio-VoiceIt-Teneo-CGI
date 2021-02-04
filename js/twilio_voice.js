@@ -130,7 +130,6 @@ class twilio_voice {
                     sessionHandler.setSession(callSid, teneoResponse.sessionId);
 
                 if(session!="" && userInput.startsWith("Hi")) {
-                    userInput="";
                     session="";
                 }
                 
@@ -223,7 +222,7 @@ class twilio_voice {
                     console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
-                     console.log("Output response: " + teneoResponse.output.text);
+                     console.log("Output response 1: " + teneoResponse.output.text);
             }
             else {
                 session = passedSessionId;
