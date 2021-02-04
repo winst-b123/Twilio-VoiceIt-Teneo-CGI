@@ -214,6 +214,14 @@ class twilio_voice {
             const passedSessionId=req.query["session"];  
             console.log("Passed session: " + passedSessionId);
             if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+                
+            }
+            else {
+               session = passedSessionId;
+                teneoSessionId=passedSessionId;   
+                 console.log("session: " + teneoSessionId);
+                userInput = "switch success"; 
+            }
                     var parameters = {};
                     parameters["phone"] = phone;
                     var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
@@ -221,13 +229,7 @@ class twilio_voice {
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
                      console.log("Output response 1: " + teneoResponse.output.text);
-            }
-            else {
-                session = passedSessionId;
-                teneoSessionId=req.query["session"];   
-                 console.log("session: " + teneoSessionId);
-                userInput = "Hi " + userInput +"! Switched to phone as requested.";
-            }     
+  
             
            if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
             client.calls
