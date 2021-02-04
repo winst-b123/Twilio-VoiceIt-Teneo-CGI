@@ -118,17 +118,15 @@ class twilio_voice {
 
                 console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                 
-                var outputMessage="";
-                
                 if(session!="" && userInput.startsWith("Hi")) {
                     userIhput="switchover success";
                 }
-             
+                else {
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
 
                     sessionHandler.setSession(callSid, teneoResponse.sessionId);
-
+                }
                 if(session!="" && userInput.startsWith("Hi")) {
                     session="";
                 }
@@ -140,7 +138,7 @@ class twilio_voice {
                     }
                 }
                
-                console.log("Output response: " + teneoResponse.output.text);
+                console.log("Output response 3: " + teneoResponse.output.text);
 
                 if(twilioAction === postPath.default) {
                     twilioAction = twilioActions.gather_default;
