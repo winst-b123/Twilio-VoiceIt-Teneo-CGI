@@ -193,19 +193,24 @@ class twilio_voice {
              console.log("userInput: " + userInput);
             const url = "https://" + req.headers["host"] + "/";
             console.log("URL: " + url);
-            teneoSessionId=req.query["Session"];   
-             console.log("session: " + teneoSessionId);
-             var parameters = {};
-            parameters["phone"] = phone;
-            var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
-            console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
-             // Add "_phone" to as key to session to make each session, regardless when using call/sms
-             teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
-             console.log("Output response: " + teneoResponse.output.text);
-            var post = qs.parse(body);
-            const callSid = post.CallSid;
-            sessionHandler.setSession(callSid, teneoResponse.sessionId);
+            const passedSessionId=req.query["session"];  
+            if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+                    var parameters = {};
+                    parameters["phone"] = phone;
+                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
+                    console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
+                    // Add "_phone" to as key to session to make each session, regardless when using call/sms
+                    teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
+                     console.log("Output response: " + teneoResponse.output.text);
+            }
+            else {
+                teneoSessionId=req.query["session"];   
+                 console.log("session: " + teneoSessionId);
+                sessionHandler.setSession(callSid, teneoSessionId);
+               teneoResponse.output.text = "Hi " + userInput "! Switched to phone as requested.";
+            }     
             
+           
             client.calls
                 .create({
                     //twiml: '<Response><Redirect method="POST">' + url + '</Redirect></Response>',
