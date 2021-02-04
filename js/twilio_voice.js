@@ -122,7 +122,7 @@ class twilio_voice {
                 if(session!="" && userInput.startsWith("Hi")) {
                     outputMessage=userInput;
                 }
-                else
+                else {
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
 
