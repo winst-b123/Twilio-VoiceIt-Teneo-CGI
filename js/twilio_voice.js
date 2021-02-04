@@ -231,7 +231,7 @@ class twilio_voice {
                      console.log("Output response 1: " + teneoResponse.output.text);
   
             
-           if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+          
             client.calls
                 .create({
                     //twiml: '<Response><Redirect method="POST">' + url + '</Redirect></Response>',
@@ -242,7 +242,7 @@ class twilio_voice {
                 .then(call =>
                     console.log(JSON.stringify(call))
                 );
-           }
+           
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
         }
