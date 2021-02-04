@@ -193,7 +193,8 @@ class twilio_voice {
              console.log("userInput: " + userInput);
             const url = "https://" + req.headers["host"] + "/";
             console.log("URL: " + url);
-            
+            teneoSessionId=req.query["Session"];   
+             console.log("session: " + teneoSessionId);
              var parameters = {};
             parameters["phone"] = phone;
             var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
@@ -201,6 +202,9 @@ class twilio_voice {
              // Add "_phone" to as key to session to make each session, regardless when using call/sms
              teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
              console.log("Output response: " + teneoResponse.output.text);
+            var post = qs.parse(body);
+            const callSid = post.CallSid;
+            sessionHandler.setSession(callSid, teneoResponse.sessionId);
             
             client.calls
                 .create({
