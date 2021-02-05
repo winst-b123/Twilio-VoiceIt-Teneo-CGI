@@ -100,13 +100,13 @@ class twilio_voice {
     
     console.log(`RESPONSE (flattened):`);
     console.log(_stringify(res));
-             var from = req.body.From;
-            console.log(`from: ${from}`);
+           //  var from = req.body.From;
+           // console.log(`from: ${from}`);
 
             // get message from user
-             var userInput = req.body.Body;
-             console.log(`userInput: ${userInput}`);
-            /*let body = '';
+           //  var userInput = req.body.Body;
+            // console.log(`userInput: ${userInput}`);
+            let body = '';
 
             req.on('data', function (data) {
                 body += data;
@@ -115,7 +115,7 @@ class twilio_voice {
             req.on('end', async function () {
                 // parse the body
                 var post = qs.parse(body);
-
+                console.log("post: " + post);
                 if(phone === "") {
                     if("phone" in req.query) {
                         phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');
@@ -128,7 +128,7 @@ class twilio_voice {
                 
                 // get the caller id
                 //const callSid = post.CallSid;
-*/
+
 
                 // check if we have stored an engine sessionid for this caller
                 teneoSessionId = sessionHandler.getSession(phone);
@@ -162,7 +162,7 @@ class twilio_voice {
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
-           // });
+            });
         }
     }
 
