@@ -1,14 +1,12 @@
 "use strict";
 
 const qs = require('querystring');
-const VoiceResponse = require('twilio').twiml.VoiceResponse;
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const TIE = require('@artificialsolutions/tie-api-client');
 const dotenv = require('dotenv');
 dotenv.config();
 const {
     TENEO_ENGINE_URL,
-    LANGUAGE_STT,
-    LANGUAGE_TTS,
     TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN,
     TWILIO_OUTBOUND_NUMBER
@@ -19,32 +17,26 @@ const postPath = {
 };
 
 const teneoApi = TIE.init(TENEO_ENGINE_URL);
-const twilioLanguage = LANGUAGE_STT || 'en-US'; // See: https://www.twilio.com/docs/voice/twiml/gather#languagetags
-const twilioVoiceName = LANGUAGE_TTS || 'Polly.Joanna'; // See: https://www.twilio.com/docs/voice/twiml/say/text-speech#amazon-polly
 
-let twilioActions = {
+/*let twilioActions = {
     gather_default: '/gather_default',
     record_default: '/record_default',
     outbound_call: '/outbound_call',
     hang_up: '/hang_up'
-};
+};*/
 let twilioAction = postPath.default;
 
 /**
  * Variables used to keep track of current state.
  */
 var teneoResponse = null;
-var teneoSessionId = "";
 var confidence = "";
 var phone = "";
 var flow = "";
-var session="";
 
 // Initiates the biometric authentication solution
 var userInput = "Authentication";
 
-console.log("LANGUAGE_STT: " + LANGUAGE_STT);
-console.log("LANGUAGE_TTS: " + LANGUAGE_TTS);
 console.log("TENEO_ENGINE_URL: " + TENEO_ENGINE_URL);
 
 class twilio_voice {
@@ -76,13 +68,13 @@ class twilio_voice {
                     }
                 }
                 console.log("Phone: " + phone);
-                console.log("In session: " + session);
+                
                 // get the caller id
                 const callSid = post.CallSid;
 
                 if(session!="") {
                      teneoSessionId = session;
-                     sessionHandler.setSession(callSid, teneoSessionId);
+                     sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
                     session="";
                 }
                 else {
@@ -90,47 +82,20 @@ class twilio_voice {
                 teneoSessionId = sessionHandler.getSession(callSid);
                 }
 
-                // Detect if userinput exists
-                if (post.CallStatus === 'in-progress' && post.SpeechResult) {
-                    userInput = post.SpeechResult;
-                    console.log("User said: " + userInput);
-                    // Capture confidence score
-                    if (post.Confidence) {
-                        confidence = post.Confidence;
-                    }
-                }
 
                 var parameters = {};
 
-                // Detect digit input from the user, add additional if statement to capture timeout
-                if(post.Digits !== "timeout" && post.Digits) {
-                    parameters["keypress"] = post.Digits;
-                }
-
-                // Detect if recording exists from input
-                if(post.RecordingSid) {
-                    parameters["url"] = post.RecordingUrl;
-                }
-
                 parameters["phone"] = phone;
 
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
 
                 console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                 
-                if(session!="" && userInput.startsWith("Hi")) {
-                    userIhput="switchover success";
-                }
                 
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
+                
 
-                    sessionHandler.setSession(callSid, teneoResponse.sessionId);
-                
-                if(session!="" && userInput.startsWith("Hi")) {
-                    session="";
-                }
-                
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
                     if(Object.keys(teneoResponse.output.parameters).includes("twilioAction")) {
@@ -144,53 +109,11 @@ class twilio_voice {
                     twilioAction = twilioActions.gather_default;
                 }
 
-                switch (twilioAction) {
+                // store engine sessionid for this sender
+                sessionHandler.setSession(from, teneoSessionId);
 
-                    // Twilio action to handle voice inputs by end-user, speaking to the end user and then capturing the voice subsequently.
-                    case twilioActions.gather_default:
-                        var twiml = new VoiceResponse();
-                        twiml.gather({
-                            input: 'speech dtmf',
-                            action: postPath.default,
-                            actionOnEmptyResult: false,
-                            language: twilioLanguage,
-                            timeout: 5,
-                            speechTimeout: "auto"
-                        }).say({
-                            voice: twilioVoiceName,
-                            language: twilioLanguage
-                        }, teneoResponse.output.text);
-                        res.writeHead(200, {'Content-Type': 'text/xml'});
-                        res.end(twiml.toString());
-                        break;
-
-                    // Twilio action to handle voice recording by end-user, starts with a beep and records the audio to a audio file.
-                    case twilioActions.record_default:
-                        var twiml = new VoiceResponse();
-                        twiml.say({
-                            voice: twilioVoiceName,
-                            language: twilioLanguage
-                        }, teneoResponse.output.text);
-                        twiml.record({
-                            action: postPath.default,
-                            maxLength: 5,
-                            trim: 'do-not-trim'
-                        });
-                        res.writeHead(200, {'Content-Type': 'text/xml'});
-                        res.end(twiml.toString());
-                        break;
-
-                    case twilioActions.hang_up:
-                        var twiml = new VoiceResponse();
-                        twiml.say({
-                            voice: twilioVoiceName,
-                            language: twilioLanguage
-                        }, teneoResponse.output.text);
-                        twiml.hangup();
-                        res.writeHead(200, {'Content-Type': 'text/xml'});
-                        res.end(twiml.toString());
-                        break;
-                }
+                // return teneo answer to twilio
+                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
             });
         }
     }
@@ -205,8 +128,8 @@ class twilio_voice {
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             console.log("Phone: " + phone);
             userInput = req.query["userInput"];   
-            if(userInput=="End of contract") {
-              phone = "+447397149619";   
+            if(userInput===undefined || userInput===null || userInput=="") {
+              userInput="Hi";
             }
              console.log("userInput: " + userInput);
             const url = "https://" + req.headers["host"] + "/";
@@ -224,7 +147,7 @@ class twilio_voice {
             }
                     var parameters = {};
                     parameters["phone"] = phone;
-                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
+                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
                     console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
@@ -232,22 +155,44 @@ class twilio_voice {
   
             
           
-            client.calls
-                .create({
-                    //twiml: '<Response><Redirect method="POST">' + url + '</Redirect></Response>',
-                    url: url,
-                    to: phone,
-                    from: TWILIO_OUTBOUND_NUMBER
-                })
-                .then(call =>
-                   // console.log(JSON.stringify(call)); 
-                   sessionHandler.setSession(call.sid, teneoSessionId)   
-                );
+            // store engine sessionid for this sender
+                sessionHandler.setSession(from, teneoSessionId);
+
+                // return teneo answer to twilio
+                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
            
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
         }
     }
+    
+    // compose and send message
+function sendTwilioMessage(teneoResponse, res, triggerFrom) {
+const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
+    console.log('trying to send outbound message: ${teneoResponse}');
+    console.log(`to: ${triggerFrom}`)
+    console.log(`from: ${TWILIO_OUTBOUND_NUMBER}`)
+client.messages
+      .create({
+         from: TWILIO_OUTBOUND_NUMBER,
+         body:  teneoResponse,
+         to: triggerFrom
+       })
+      .then(message => console.log(message.sid));
+}
+ else {
+  const message = teneoResponse;
+  const twiml = new MessagingResponse();
+
+  twiml.message(message);
+
+  res.writeHead(200, { 'Content-Type': 'text/xml' });
+  res.end(twiml.toString());
+   console.log(`twim1: ${twiml.toString()}`);
+ }
+}
+
 
     /***
      * SESSION HANDLER
