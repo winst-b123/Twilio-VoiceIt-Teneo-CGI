@@ -115,7 +115,9 @@ class twilio_voice {
             req.on('end', async function () {
                 // parse the body
                 var post = qs.parse(body);
-                console.log("post: " + post);
+                console.log("post: " );
+                console.log(_stringify(post));
+                
                 if(phone === "") {
                     if("phone" in req.query) {
                         phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');
