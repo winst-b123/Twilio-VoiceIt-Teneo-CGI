@@ -114,6 +114,8 @@ class twilio_voice {
 
             req.on('end', async function () {
                 // parse the body
+                
+                if(userInput!="Hi") {
                 var post = qs.parse(body);
                 console.log("post: " );
                 console.log(_stringify(post));
@@ -164,6 +166,9 @@ class twilio_voice {
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
+                    
+                }
+                userInput="";
             });
         }
     }
