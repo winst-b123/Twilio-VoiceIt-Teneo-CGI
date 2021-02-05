@@ -6,7 +6,29 @@ const TIE = require('@artificialsolutions/tie-api-client');
 const dotenv = require('dotenv');
 dotenv.config();
 // initialise session handler, to store mapping between twillio CallSid and engine session id
+/***
+     * SESSION HANDLER
+     ***/
+    SessionHandler() {
 
+        const sessionMap = new Map();
+
+        return {
+            getSession: (userId) => {
+                if (sessionMap.size > 0) {
+                    return sessionMap.get(userId);
+                }
+                else {
+                    return "";
+                }
+            },
+            setSession: (userId, sessionId) => {
+                sessionMap.set(userId, sessionId)
+            }
+        };
+    }
+
+    const sessionHandler = this.SessionHandler();
 const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
@@ -89,7 +111,7 @@ client.messages
 }
 
 class twilio_voice {
-    const sessionHandler = this.SessionHandler();
+
     // handle incoming twilio message
     handleInboundCalls() {
 
@@ -222,27 +244,7 @@ class twilio_voice {
 
 
 
-    /***
-     * SESSION HANDLER
-     ***/
-    SessionHandler() {
-
-        const sessionMap = new Map();
-
-        return {
-            getSession: (userId) => {
-                if (sessionMap.size > 0) {
-                    return sessionMap.get(userId);
-                }
-                else {
-                    return "";
-                }
-            },
-            setSession: (userId, sessionId) => {
-                sessionMap.set(userId, sessionId)
-            }
-        };
-    }
+    
 }
 
 module.exports = twilio_voice;
