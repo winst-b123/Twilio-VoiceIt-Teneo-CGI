@@ -140,7 +140,7 @@ class twilio_voice {
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
-            });
+           // });
         }
     }
 
