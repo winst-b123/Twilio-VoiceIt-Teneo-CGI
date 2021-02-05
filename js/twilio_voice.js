@@ -9,7 +9,7 @@ dotenv.config();
 /***
      * SESSION HANDLER
      ***/
-    SessionHandler() {
+  class  SessionHandler() {
 
         const sessionMap = new Map();
 
@@ -28,7 +28,7 @@ dotenv.config();
         };
     }
 
-    const sessionHandler = this.SessionHandler();
+    const sessionHandler = SessionHandler();
 const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
