@@ -136,7 +136,7 @@ class twilio_voice {
                 sessionHandler.setSession(phone, teneoSessionId);
 
                 // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
+                sendTwilioMessage(teneoResponse.output.text, res, "whatsapp:"+phone);
             });
         }
     }
@@ -174,7 +174,7 @@ class twilio_voice {
                 sessionHandler.setSession(phone, teneoSessionId);
 
                 // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
+                sendTwilioMessage(teneoResponse.output.text, res, "whatsapp:"+phone);
            
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
