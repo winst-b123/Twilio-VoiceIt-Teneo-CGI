@@ -6,7 +6,7 @@ const TIE = require('@artificialsolutions/tie-api-client');
 const dotenv = require('dotenv');
 dotenv.config();
 // initialise session handler, to store mapping between twillio CallSid and engine session id
-const sessionHandler = SessionHandler();
+
 const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
@@ -92,7 +92,7 @@ class twilio_voice {
 
     // handle incoming twilio message
     handleInboundCalls() {
-
+const sessionHandler = this.SessionHandler();
         
 
         return async (req, res) => {
@@ -175,9 +175,8 @@ class twilio_voice {
     }
 
     handleOutboundCalls() {
-
+        const sessionHandler = this.SessionHandler();
         return async (req, res) => {
-            const sessionHandler = this.SessionHandler();
             console.log("IN HANDLE OUTBOUND WHATSAPP!");
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
