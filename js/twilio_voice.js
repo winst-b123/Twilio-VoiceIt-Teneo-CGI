@@ -78,7 +78,12 @@ class twilio_voice {
 
         return async (req, res) => {
 
-            let body = '';
+             var from = req.body.From;
+            console.log(`from: ${from}`);
+
+            // get message from user
+             var userInput = req.body.Body;
+            /*let body = '';
 
             req.on('data', function (data) {
                 body += data;
@@ -100,7 +105,7 @@ class twilio_voice {
                 
                 // get the caller id
                 //const callSid = post.CallSid;
-
+*/
 
                 // check if we have stored an engine sessionid for this caller
                 teneoSessionId = sessionHandler.getSession(phone);
