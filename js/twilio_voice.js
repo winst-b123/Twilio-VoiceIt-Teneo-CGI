@@ -83,6 +83,7 @@ class twilio_voice {
 
             // get message from user
              var userInput = req.body.Body;
+             console.log(`userInput: ${userInput}`);
             /*let body = '';
 
             req.on('data', function (data) {
