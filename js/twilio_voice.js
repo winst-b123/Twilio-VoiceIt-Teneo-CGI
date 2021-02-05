@@ -44,18 +44,19 @@ console.log("TENEO_ENGINE_URL: " + TENEO_ENGINE_URL);
 function sendTwilioMessage(teneoResponse, res, triggerFrom) {
 const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
-    console.log('trying to send outbound message: ${teneoResponse}');
+    console.log('trying to send outbound message: ${teneoResponse.output.text}');
     console.log(`to: ${triggerFrom}`)
     console.log(`from: ${TWILIO_OUTBOUND_NUMBER}`)
 client.messages
       .create({
          from: TWILIO_OUTBOUND_NUMBER,
-         body:  teneoResponse,
+         body:  teneoResponse.output.text,
          to: triggerFrom
        })
       .then(message => console.log(message.sid));
 }
  else {
+     console.log('replying to inbound message: ${teneoResponse.output.text}');
   const message = teneoResponse;
   const twiml = new MessagingResponse();
 
@@ -112,7 +113,7 @@ class twilio_voice {
 
                 var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
 
-                console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
+                console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
                 
                 
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
@@ -132,7 +133,7 @@ class twilio_voice {
                 sessionHandler.setSession(phone, teneoSessionId);
 
                 // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse.output.text, res, "whatsapp:"+phone);
+                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
             });
         }
     }
@@ -170,7 +171,7 @@ class twilio_voice {
                 sessionHandler.setSession(phone, teneoSessionId);
 
                 // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse.output.text, res, "whatsapp:"+phone);
+                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
            
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
