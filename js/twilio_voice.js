@@ -5,30 +5,9 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const TIE = require('@artificialsolutions/tie-api-client');
 const dotenv = require('dotenv');
 dotenv.config();
-// initialise session handler, to store mapping between twillio CallSid and engine session id
-/***
-     * SESSION HANDLER
-     ***/
-  class  SessionHandler() {
+const sessionMap = new Map();
 
-        const sessionMap = new Map();
 
-        return {
-            getSession: (userId) => {
-                if (sessionMap.size > 0) {
-                    return sessionMap.get(userId);
-                }
-                else {
-                    return "";
-                }
-            },
-            setSession: (userId, sessionId) => {
-                sessionMap.set(userId, sessionId)
-            }
-        };
-    }
-
-    const sessionHandler = SessionHandler();
 const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
@@ -114,7 +93,7 @@ class twilio_voice {
 
     // handle incoming twilio message
     handleInboundCalls() {
-
+const sessionHandler = SessionHandler();
         
 
         return async (req, res) => {
@@ -197,7 +176,7 @@ class twilio_voice {
     }
 
     handleOutboundCalls() {
-  
+  const sessionHandler = SessionHandler();
         return async (req, res) => {
             console.log("IN HANDLE OUTBOUND WHATSAPP!");
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
@@ -241,9 +220,23 @@ class twilio_voice {
         }
     }
     
+SessionHandler() {
+      
 
-
-
+        return {
+            getSession: (userId) => {
+                if (sessionMap.size > 0) {
+                    return sessionMap.get(userId);
+                }
+                else {
+                    return "";
+                }
+            },
+            setSession: (userId, sessionId) => {
+                sessionMap.set(userId, sessionId)
+            }
+        };
+    }
     
 }
 
