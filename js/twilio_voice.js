@@ -93,7 +93,7 @@ class twilio_voice {
 
     // handle incoming twilio message
     handleInboundCalls() {
-const sessionHandler = SessionHandler();
+const sessionHandler = this.SessionHandler();
         
 
         return async (req, res) => {
@@ -176,7 +176,7 @@ const sessionHandler = SessionHandler();
     }
 
     handleOutboundCalls() {
-  const sessionHandler = SessionHandler();
+  const sessionHandler = this.SessionHandler();
         return async (req, res) => {
             console.log("IN HANDLE OUTBOUND WHATSAPP!");
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
