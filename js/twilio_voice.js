@@ -18,12 +18,12 @@ const postPath = {
 
 const teneoApi = TIE.init(TENEO_ENGINE_URL);
 
-/*let twilioActions = {
+let twilioActions = {
     gather_default: '/gather_default',
     record_default: '/record_default',
     outbound_call: '/outbound_call',
     hang_up: '/hang_up'
-};*/
+};
 let twilioAction = postPath.default;
 
 /**
@@ -127,10 +127,6 @@ class twilio_voice {
                 }
                
                 console.log("Output response 3: " + teneoResponse.output.text);
-
-                if(twilioAction === postPath.default) {
-                    twilioAction = twilioActions.gather_default;
-                }
 
                 // store engine sessionid for this sender
                 sessionHandler.setSession(phone, teneoSessionId);
