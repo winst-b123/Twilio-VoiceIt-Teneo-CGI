@@ -6,7 +6,7 @@ const TIE = require('@artificialsolutions/tie-api-client');
 const dotenv = require('dotenv');
 dotenv.config();
 // initialise session handler, to store mapping between twillio CallSid and engine session id
-const sessionHandler = this.SessionHandler();
+const sessionHandler = SessionHandler();
 const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
