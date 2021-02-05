@@ -33,6 +33,7 @@ var teneoResponse = null;
 var confidence = "";
 var phone = "";
 var flow = "";
+var teneoSessionId;
 
 // Initiates the biometric authentication solution
 var userInput = "Authentication";
@@ -70,17 +71,12 @@ class twilio_voice {
                 console.log("Phone: " + phone);
                 
                 // get the caller id
-                const callSid = post.CallSid;
+                //const callSid = post.CallSid;
 
-                if(session!="") {
-                     teneoSessionId = session;
-                     sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
-                    session="";
-                }
-                else {
+
                 // check if we have stored an engine sessionid for this caller
-                teneoSessionId = sessionHandler.getSession(callSid);
-                }
+                teneoSessionId = sessionHandler.getSession(phone);
+                
 
 
                 var parameters = {};
@@ -122,11 +118,13 @@ class twilio_voice {
 
         return async (req, res) => {
             const sessionHandler = this.SessionHandler();
-            console.log("IN HANDLE OUTBOUND CALLS!");
+            console.log("IN HANDLE OUTBOUND WHATSAPP!");
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             console.log("Phone: " + phone);
+            // check if we have stored an engine sessionid for this caller
+             teneoSessionId = sessionHandler.getSession(phone);
             userInput = req.query["userInput"];   
             if(userInput===undefined || userInput===null || userInput=="") {
               userInput="Hi";
@@ -134,17 +132,7 @@ class twilio_voice {
              console.log("userInput: " + userInput);
             const url = "https://" + req.headers["host"] + "/";
             console.log("URL: " + url);
-            const passedSessionId=req.query["session"];  
-            console.log("Passed session: " + passedSessionId);
-            if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
-                
-            }
-            else {
-               session = passedSessionId;
-                teneoSessionId=passedSessionId;   
-                 console.log("session: " + teneoSessionId);
-                userInput = "switchover success"; 
-            }
+            
                     var parameters = {};
                     parameters["phone"] = phone;
                     var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
