@@ -95,11 +95,6 @@ class twilio_voice {
         const sessionHandler = this.SessionHandler();
 
         return async (req, res) => {
- console.log(`REQUEST (flattened):`);
-    console.log(_stringify(req));
-    
-    console.log(`RESPONSE (flattened):`);
-    console.log(_stringify(res));
 
             let body = '';
 
@@ -150,7 +145,7 @@ class twilio_voice {
                 
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
-                
+                teneoSessionId = teneoResponse.sessionId;
 
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
@@ -203,6 +198,7 @@ class twilio_voice {
                     console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
+                     teneoSessionId = teneoResponse.sessionId;
                      console.log("Output response 1: " + teneoResponse.output.text);
   
             
