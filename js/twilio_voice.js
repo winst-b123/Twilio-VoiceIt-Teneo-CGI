@@ -100,12 +100,7 @@ class twilio_voice {
     
     console.log(`RESPONSE (flattened):`);
     console.log(_stringify(res));
-           //  var from = req.body.From;
-           // console.log(`from: ${from}`);
 
-            // get message from user
-           //  var userInput = req.body.Body;
-            // console.log(`userInput: ${userInput}`);
             let body = '';
 
             req.on('data', function (data) {
@@ -115,17 +110,22 @@ class twilio_voice {
             req.on('end', async function () {
                 // parse the body
                 
-                if(userInput!="Hi") {
+                if(userInput!="hi") {
                 var post = qs.parse(body);
                 console.log("post: " );
                 console.log(_stringify(post));
-                
+                  var from = req.body.From;
+                 console.log(`from: ${from}`);
+
+            // get message from user
+               userInput = req.body.Body;
+               console.log(`userInput: ${userInput}`);
                 if(phone === "") {
                     if("phone" in req.query) {
                         phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');
                     }
                     else {
-                        phone = post.Caller;
+                        phone = post.From;
                     }
                 }
                 console.log("Phone: " + phone);
@@ -168,7 +168,11 @@ class twilio_voice {
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
                     
                 }
+                else {
                 userInput="";
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end();
+                }
             });
         }
     }
