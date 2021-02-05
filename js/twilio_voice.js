@@ -40,6 +40,33 @@ var userInput = "Authentication";
 
 console.log("TENEO_ENGINE_URL: " + TENEO_ENGINE_URL);
 
+    // compose and send message
+function sendTwilioMessage(teneoResponse, res, triggerFrom) {
+const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
+    console.log('trying to send outbound message: ${teneoResponse}');
+    console.log(`to: ${triggerFrom}`)
+    console.log(`from: ${TWILIO_OUTBOUND_NUMBER}`)
+client.messages
+      .create({
+         from: TWILIO_OUTBOUND_NUMBER,
+         body:  teneoResponse,
+         to: triggerFrom
+       })
+      .then(message => console.log(message.sid));
+}
+ else {
+  const message = teneoResponse;
+  const twiml = new MessagingResponse();
+
+  twiml.message(message);
+
+  res.writeHead(200, { 'Content-Type': 'text/xml' });
+  res.end(twiml.toString());
+   console.log(`twim1: ${twiml.toString()}`);
+ }
+}
+
 class twilio_voice {
 
     // handle incoming twilio message
@@ -154,32 +181,7 @@ class twilio_voice {
         }
     }
     
-    // compose and send message
-sendTwilioMessage(teneoResponse, res, triggerFrom) {
-const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
-    console.log('trying to send outbound message: ${teneoResponse}');
-    console.log(`to: ${triggerFrom}`)
-    console.log(`from: ${TWILIO_OUTBOUND_NUMBER}`)
-client.messages
-      .create({
-         from: TWILIO_OUTBOUND_NUMBER,
-         body:  teneoResponse,
-         to: triggerFrom
-       })
-      .then(message => console.log(message.sid));
-}
- else {
-  const message = teneoResponse;
-  const twiml = new MessagingResponse();
 
-  twiml.message(message);
-
-  res.writeHead(200, { 'Content-Type': 'text/xml' });
-  res.end(twiml.toString());
-   console.log(`twim1: ${twiml.toString()}`);
- }
-}
 
 
     /***
