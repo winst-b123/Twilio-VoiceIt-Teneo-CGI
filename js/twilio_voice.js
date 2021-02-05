@@ -40,6 +40,24 @@ var userInput = "Authentication";
 
 console.log("TENEO_ENGINE_URL: " + TENEO_ENGINE_URL);
 
+function _stringify (o)
+{
+  const decircularise = () =>
+  {
+    const seen = new WeakSet();
+    return (key,val) => 
+    {
+      if( typeof val === "object" && val !== null )
+      {
+        if( seen.has(val) ) return;
+        seen.add(val);
+      }
+      return val;
+    };
+  };
+  
+  return JSON.stringify( o, decircularise() );
+}
     // compose and send message
 function sendTwilioMessage(teneoResponse, res, triggerFrom) {
 const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
@@ -77,7 +95,11 @@ class twilio_voice {
         const sessionHandler = this.SessionHandler();
 
         return async (req, res) => {
-
+ console.log(`REQUEST (flattened):`);
+    console.log(_stringify(req));
+    
+    console.log(`RESPONSE (flattened):`);
+    console.log(_stringify(res));
              var from = req.body.From;
             console.log(`from: ${from}`);
 
