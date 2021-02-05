@@ -207,10 +207,13 @@ const sessionHandler = this.SessionHandler();
           
             // store engine sessionid for this sender
                 sessionHandler.setSession(phone, teneoSessionId);
+            
+
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
-           
+                       teneoSessionId = sessionHandler.getSession(phone);
+            console.log("session ID retrieved4: " + teneoSessionId);
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
         }
