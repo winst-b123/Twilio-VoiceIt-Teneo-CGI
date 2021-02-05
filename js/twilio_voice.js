@@ -132,7 +132,7 @@ class twilio_voice {
                 // check if we have stored an engine sessionid for this caller
                 teneoSessionId = sessionHandler.getSession(phone);
                 
-
+                console.log("session ID retrieved: " + teneoSessionId);
 
                 var parameters = {};
 
@@ -184,6 +184,7 @@ class twilio_voice {
             console.log("Phone: " + phone);
             // check if we have stored an engine sessionid for this caller
              teneoSessionId = sessionHandler.getSession(phone);
+            console.log("session ID retrieved2: " + teneoSessionId);
             userInput = req.query["userInput"];   
             if(userInput===undefined || userInput===null || userInput=="") {
               userInput="Hi";
@@ -199,6 +200,7 @@ class twilio_voice {
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
                      teneoSessionId = teneoResponse.sessionId;
+                    console.log("session ID retrieved3: " + teneoSessionId);
                      console.log("Output response 1: " + teneoResponse.output.text);
   
             
