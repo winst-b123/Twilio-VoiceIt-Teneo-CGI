@@ -5,6 +5,8 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const TIE = require('@artificialsolutions/tie-api-client');
 const dotenv = require('dotenv');
 dotenv.config();
+// initialise session handler, to store mapping between twillio CallSid and engine session id
+const sessionHandler = this.SessionHandler();
 const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
@@ -91,8 +93,7 @@ class twilio_voice {
     // handle incoming twilio message
     handleInboundCalls() {
 
-        // initialise session handler, to store mapping between twillio CallSid and engine session id
-        const sessionHandler = this.SessionHandler();
+        
 
         return async (req, res) => {
 
