@@ -106,7 +106,7 @@ class twilio_voice {
                 }
 
                 // store engine sessionid for this sender
-                sessionHandler.setSession(from, teneoSessionId);
+                sessionHandler.setSession(phone, teneoSessionId);
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
@@ -144,7 +144,7 @@ class twilio_voice {
             
           
             // store engine sessionid for this sender
-                sessionHandler.setSession(from, teneoSessionId);
+                sessionHandler.setSession(phone, teneoSessionId);
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
