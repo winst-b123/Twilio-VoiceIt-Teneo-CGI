@@ -114,11 +114,11 @@ class twilio_voice {
                 var post = qs.parse(body);
                 console.log("post: " );
                 console.log(_stringify(post));
-                  var from = req.body.From;
+                  var from = post.From;
                  console.log(`from: ${from}`);
-
+            if(post.From!=TWILIO_OUTBOUND_NUMBER) {
             // get message from user
-               userInput = req.body.Body;
+               userInput = post.Body;
                console.log(`userInput: ${userInput}`);
                 if(phone === "") {
                     if("phone" in req.query) {
@@ -166,7 +166,8 @@ class twilio_voice {
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
-                    
+                   
+                } 
                 }
                 else {
                 userInput="";
