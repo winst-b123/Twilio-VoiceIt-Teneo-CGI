@@ -68,7 +68,7 @@ var mediaUrl="";
 // Detect if Teneo solution have provided a Twilio action as output parameter
 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
    if(Object.keys(teneoResponse.output.parameters).includes("MediaUrl")) {
-      twilioAction = teneoResponse.output.parameters["MediaUrl"];
+      mediaUrl = teneoResponse.output.parameters["MediaUrl"];
       console.log("Media URL: " + mediaUrl);
    }
 }
@@ -80,7 +80,8 @@ client.messages
       .create({
          from: TWILIO_OUTBOUND_NUMBER,
          body:  teneoResponse.output.text,
-         to: triggerFrom
+         to: triggerFrom,
+        mediaUrl: mediaUrl
        })
       .then(message => console.log(message.sid));
 }
