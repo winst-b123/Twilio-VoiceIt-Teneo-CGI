@@ -80,7 +80,8 @@ client.messages
       .create({
          from: TWILIO_OUTBOUND_NUMBER,
          body:  teneoResponse.output.text + " " + mediaUrl,
-         to: triggerFrom
+         to: triggerFrom,
+    mediaUrl: mediaUrl
        })
       .then(message => console.log(message.sid));
 }
