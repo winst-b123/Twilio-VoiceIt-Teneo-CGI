@@ -64,6 +64,14 @@ function _stringify (o)
     // compose and send message
 function sendTwilioMessage(teneoResponse, res, triggerFrom) {
 const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+var mediaUrl="";
+// Detect if Teneo solution have provided a Twilio action as output parameter
+if(Object.keys(teneoResponse.output.parameters).length !== 0) {
+   if(Object.keys(teneoResponse.output.parameters).includes("MediaUrl")) {
+      twilioAction = teneoResponse.output.parameters["MediaUrl"];
+      console.log("Media URL: " + mediaUrl);
+   }
+}
 if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
     console.log('trying to send outbound message: ${teneoResponse.output.text}');
     console.log(`to: ${triggerFrom}`)
