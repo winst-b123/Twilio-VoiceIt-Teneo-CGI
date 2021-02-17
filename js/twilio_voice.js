@@ -204,7 +204,7 @@ const sessionHandler = this.SessionHandler();
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             console.log("Phone: " + phone);
             // check if we have stored an engine sessionid for this caller
-             teneoSessionId = sessionHandler.getSession(phone);
+             teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
             console.log("session ID retrieved2: " + teneoSessionId);
             userInput = req.query["userInput"];   
             if(userInput===undefined || userInput===null || userInput=="") {
@@ -227,13 +227,13 @@ const sessionHandler = this.SessionHandler();
             
           
             // store engine sessionid for this sender
-                sessionHandler.setSession(phone, teneoSessionId);
+                sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
             
 
 
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
-                       teneoSessionId = sessionHandler.getSession(phone);
+                       teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
             console.log("session ID retrieved4: " + teneoSessionId);
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
