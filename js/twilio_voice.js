@@ -70,6 +70,12 @@ if(Object.keys(teneoResponse.output.parameters).length !== 0) {
    if(Object.keys(teneoResponse.output.parameters).includes("MediaUrl")) {
       mediaUrl = teneoResponse.output.parameters["MediaUrl"];
       console.log("Media URL: " + mediaUrl);
+       if( mediaUrl!==undefined && mediaUrl!==null && mediaUrl!="") { 
+            mediaUrl = " (" + medialUrl + ")";   
+       }
+       else {
+          mediaUrl="";   
+       }
    }
 }
 if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
@@ -79,7 +85,7 @@ if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
 client.messages
       .create({
          from: TWILIO_OUTBOUND_NUMBER,
-         body:  teneoResponse.output.text + " (" + mediaUrl +")",
+         body:  teneoResponse.output.text + "" + mediaUrl,
          to: triggerFrom
        })
       .then(message => console.log(message.sid));
