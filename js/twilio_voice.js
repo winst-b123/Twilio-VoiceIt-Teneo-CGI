@@ -170,7 +170,7 @@ const sessionHandler = this.SessionHandler();
                 sessionHandler.setSession(phone, teneoSessionId);
 
                 // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
+                sendTwilioMessage(teneoResponse, res, phone);
                    
                 } 
                 }
