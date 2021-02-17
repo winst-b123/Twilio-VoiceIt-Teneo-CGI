@@ -139,6 +139,9 @@ const sessionHandler = this.SessionHandler();
                         phone = post.From;
                     }
                 }
+                if(!phone.startsWith("whatsapp:")) {
+                    phone = "whatsapp:" + phone;
+                }
                 console.log("Phone: " + phone);
                 
                 // get the caller id
