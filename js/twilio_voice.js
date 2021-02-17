@@ -71,7 +71,7 @@ if(Object.keys(teneoResponse.output.parameters).length !== 0) {
       mediaUrl = teneoResponse.output.parameters["MediaUrl"];
       console.log("Media URL: " + mediaUrl);
        if( mediaUrl!==undefined && mediaUrl!==null && mediaUrl!="") { 
-            mediaUrl = " (" + medialUrl + ")";   
+            mediaUrl = " (" + mediaUrl + ")";   
        }
        else {
           mediaUrl="";   
