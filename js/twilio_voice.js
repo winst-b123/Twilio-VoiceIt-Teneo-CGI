@@ -159,7 +159,7 @@ const sessionHandler = this.SessionHandler();
                 var parameters = {};
                 var MediaUrl0 = post.MediaUrl0;   
                 console.log(`MURL: ${MediaUrl0}`)
-                parameters["MediaUrl0"] = MediaUrl0;
+                parameters["mediaurl"] = MediaUrl0;
                 parameters["phone"] = phone;
 
                 var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
