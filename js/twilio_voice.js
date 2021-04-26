@@ -158,6 +158,7 @@ const sessionHandler = this.SessionHandler();
 
                 var parameters = {};
                 var MediaUrl0 = req.query["MediaUrl0"];   
+                console.log(`MURL: ${MediaUrl0}`)
                 parameters["MediaUrl0"] = MediaUrl0;
                 parameters["phone"] = phone;
 
