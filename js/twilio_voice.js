@@ -157,7 +157,7 @@ const sessionHandler = this.SessionHandler();
                 console.log("session ID retrieved: " + teneoSessionId);
 
                 var parameters = {};
-                var MediaUrl0 = req.query["MediaUrl0"];   
+                var MediaUrl0 = post.MediaUrl0;   
                 console.log(`MURL: ${MediaUrl0}`)
                 parameters["MediaUrl0"] = MediaUrl0;
                 parameters["phone"] = phone;
