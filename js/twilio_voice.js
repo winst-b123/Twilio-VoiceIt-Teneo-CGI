@@ -101,6 +101,8 @@ class twilio_voice {
                 }
 
                 var parameters = {};
+                var MediaUrl0 = req.query["MediaUrl0"];   
+                parameters["MediaUrl0"] = MediaUrl0;
 
                 // Detect digit input from the user, add additional if statement to capture timeout
                 if(post.Digits !== "timeout" && post.Digits) {
