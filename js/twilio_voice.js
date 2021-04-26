@@ -159,13 +159,10 @@ const sessionHandler = this.SessionHandler();
                 var parameters = {};
                 var MediaUrl0 = post.MediaUrl0;   
                 console.log(`MURL: ${MediaUrl0}`)
-                if(MediaUrl0!=undefined) {
-                    parameters["mediaurl"] = MediaUrl0;
-                }
                 parameters["phone"] = phone;
 
-                //var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
-                var contentToTeneo = {'text': userInput, "parameters": parameters, "channel":"twilio-whatsapp"};
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0};
+
 
                 console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
                 
