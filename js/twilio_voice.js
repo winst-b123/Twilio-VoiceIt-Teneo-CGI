@@ -162,7 +162,8 @@ const sessionHandler = this.SessionHandler();
                 parameters["mediaurl"] = MediaUrl0;
                 parameters["phone"] = phone;
 
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
+                //var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
+                var contentToTeneo = {'text': userInput, "parameters": parameters, "channel":"twilio-whatsapp"};
 
                 console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
                 
