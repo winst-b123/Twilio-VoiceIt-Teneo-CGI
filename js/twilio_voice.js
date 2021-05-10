@@ -164,13 +164,9 @@ const sessionHandler = this.SessionHandler();
                     MediaUrl0="";
                 }
                 
-                var contractNum = req.query["contractNum"];
-                if(contractNum===undefined) {
-                    contractNum = "";
-                }
-                console.log("contractNum: " + contractNum);
+                
 
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0, "arrearsContractNum":contractNum};
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0};
 
 
                 console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
@@ -227,7 +223,12 @@ const sessionHandler = this.SessionHandler();
             
                     var parameters = {};
                     parameters["phone"] = phone;
-                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp"};
+                    var contractNum = req.query["contractNum"];
+                if(contractNum===undefined) {
+                    contractNum = "";
+                }
+                console.log("contractNum: " + contractNum);
+                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "arrearsContractNum":contractNum};
                     console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
