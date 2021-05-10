@@ -168,6 +168,7 @@ const sessionHandler = this.SessionHandler();
                 if(contractNum===undefined) {
                     contractNum = "";
                 }
+                console.log("contractNum: " + contractNum);
 
                 var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0, "arrearsContractNum":contractNum};
 
