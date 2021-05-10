@@ -163,8 +163,13 @@ const sessionHandler = this.SessionHandler();
                 if(MediaUrl0===undefined){
                     MediaUrl0="";
                 }
+                
+                var contractNum = req.query["contractNum"];
+                if(contractNum===undefined) {
+                    contractNum = "";
+                }
 
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0};
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0, "arrearsContractNum":contractNum};
 
 
                 console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
