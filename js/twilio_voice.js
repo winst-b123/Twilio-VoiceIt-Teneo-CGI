@@ -223,12 +223,29 @@ const sessionHandler = this.SessionHandler();
             
                     var parameters = {};
                     parameters["phone"] = phone;
-                    var contractNum = req.query["contractNum"];
+                    
+            var contractNum = req.query["contractNum"];
                 if(contractNum===undefined) {
                     contractNum = "";
                 }
                 console.log("contractNum: " + contractNum);
-                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "arrearsContractNum":contractNum};
+            var arrears= req.query["arrears"];
+                if(arrears===undefined) {
+                    arrears = "0.00";
+                }
+                console.log("arrears: " + arrears);
+            var fname= req.query["fname"];
+                if(fname===undefined) {
+                    fname = "";
+                }
+                console.log("fname: " + fname);
+            var numMissed = req.query["numMissed"];
+                if(numMissed===undefined) {
+                    numMissed = "";
+                }
+                console.log("numMissed: " + numMissed);
+                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "arrearsContractNum":contractNum
+                                         , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed};
                     console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
