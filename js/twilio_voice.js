@@ -244,8 +244,18 @@ const sessionHandler = this.SessionHandler();
                     numMissed = "";
                 }
                 console.log("numMissed: " + numMissed);
+             var daysSince = req.query["daysSince"];
+                if(daysSince===undefined) {
+                    daysSince = "";
+                }
+                console.log("daysSince: " + daysSince);
+             var email = req.query["email"];
+                if(email===undefined) {
+                    email = "";
+                }
+                console.log("email: " + email);
                     var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "arrearsContractNum":contractNum
-                                         , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed};
+                                         , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
                     console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
