@@ -140,12 +140,16 @@ const sessionHandler = this.SessionHandler();
                         phone = post.From;
                     }
                 }
+                 if(TWILIO_MODE=="sms") {
+                 }
+                else {
                 if(!phone.startsWith("whatsapp:")) {
                     phone = "whatsapp:" + phone;
                 }
                 if(post.From.startsWith("whatsapp:")) {
                   phone = post.From;  
                 } 
+                }
                 console.log("Phone: " + phone);
                 
                 // get the caller id
