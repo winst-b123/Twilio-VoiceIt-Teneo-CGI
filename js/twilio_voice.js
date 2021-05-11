@@ -12,7 +12,8 @@ const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN,
-    TWILIO_OUTBOUND_NUMBER
+    TWILIO_OUTBOUND_NUMBER,
+    TWILIO_MODE
 } = process.env;
 
 const postPath = {
@@ -266,13 +267,19 @@ const sessionHandler = this.SessionHandler();
             
           
             // store engine sessionid for this sender
-                sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
             
-
-
+               if(TWILIO_MODE=="sms") {
+                   sessionHandler.setSession(phone, teneoSessionId);
+                // return teneo answer to twilio
+                sendTwilioMessage(teneoResponse, res, phone);
+                       teneoSessionId = sessionHandler.getSession(phone);
+               }
+            else {
+                sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
                        teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
+            }
             console.log("session ID retrieved4: " + teneoSessionId);
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
