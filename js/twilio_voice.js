@@ -115,8 +115,39 @@ class twilio_voice {
                 }
 
                 parameters["phone"] = phone;
-
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr"};
+                            var contractNum = req.query["contractNum"];
+                if(contractNum===undefined) {
+                    contractNum = "";
+                }
+                console.log("contractNum: " + contractNum);
+            var arrears= req.query["arrears"];
+                if(arrears===undefined) {
+                    arrears = "0.00";
+                }
+                console.log("arrears: " + arrears);
+            var fname= req.query["fname"];
+                if(fname===undefined) {
+                    fname = "";
+                }
+                console.log("fname: " + fname);
+            var numMissed = req.query["numMissed"];
+                if(numMissed===undefined) {
+                    numMissed = "";
+                }
+                console.log("numMissed: " + numMissed);
+             var daysSince = req.query["daysSince"];
+                if(daysSince===undefined) {
+                    daysSince = "";
+                }
+                console.log("daysSince: " + daysSince);
+             var email = req.query["email"];
+                if(email===undefined) {
+                    email = "";
+                }
+                console.log("email: " + email);
+                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"ivr", "arrearsContractNum":contractNum
+                                         , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
+               
 
                 console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                 
