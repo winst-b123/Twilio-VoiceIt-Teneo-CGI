@@ -200,7 +200,7 @@ const sessionHandler = this.SessionHandler();
   
                 console.log("contractNum: " + contractNum);
             // get message from user
-                if(post.Body!==undefined) {
+                if(post.Body!==undefined && !post.SpeechResult) {
                     userInput = post.Body;
                 }
                console.log(`userInput: ${userInput}`);
