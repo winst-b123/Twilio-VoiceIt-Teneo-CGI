@@ -170,14 +170,14 @@ const sessionHandler = this.SessionHandler();
                     userInput = post.Body;
                 }
                console.log(`userInput: ${userInput}`);
-                if(phone === "") {
+                //if(phone === "") {
                     if("phone" in req.query) {
                         phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');
                     }
                     else {
                         phone = post.From;
                     }
-                }
+                //}
                 var channel = TWILIO_MODE;
 
                  if(TWILIO_MODE=="whatsapp") {
