@@ -381,7 +381,7 @@ const sessionHandler = this.SessionHandler();
                 console.log("URL: " + url);
                 client.calls
                 .create({
-                    //url: url,
+                    url: url,
                     twiml: twiml.toString(), 
                     to: phone,
                     from: TWILIO_OUTBOUND_NUMBER
