@@ -40,7 +40,7 @@ let twilioAction = postPath.default;
  */
 var teneoResponse = null;
 var confidence = "";
-var phone = "";
+
 var flow = "";
 var arrears="";
 var contractNum="";
@@ -134,7 +134,7 @@ const sessionHandler = this.SessionHandler();
 
             req.on('end', async function () {
                 // parse the body
-                
+                var phone = "";
                 if(userInput!="hi") {
                 var post = qs.parse(body);
                 console.log("post: " );
@@ -173,6 +173,9 @@ const sessionHandler = this.SessionHandler();
                 //if(phone === "") {
                     if("phone" in req.query) {
                         phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');
+                    }
+                    else if(post.From==TWILIO_OUTBOUND_NUMBER || post.From==TWILIO_OUTBOUND_NUMBER_WA) {
+                        //do nothing
                     }
                     else {
                         phone = post.From;
@@ -402,7 +405,7 @@ const sessionHandler = this.SessionHandler();
                }
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
-                const url = "https://" + req.headers["host"] + "/";
+                const url = "https://" + req.headers["host"] + "/?phone="+phone;
               
                 console.log("URL: " + url);
                 client.calls
