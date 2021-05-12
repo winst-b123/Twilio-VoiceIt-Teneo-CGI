@@ -363,6 +363,7 @@ const sessionHandler = this.SessionHandler();
         return async (req, res) => {
              var TWILIO_MODE = "ivr";   
             var phone = "";
+            
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
@@ -371,7 +372,7 @@ const sessionHandler = this.SessionHandler();
             // check if we have stored an engine sessionid for this caller
              teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
             console.log("session ID retrieved2: " + teneoSessionId);
-            userInput = req.query["userInput"];   
+            var userInput = req.query["userInput"];   
             if(userInput===undefined || userInput===null || userInput=="") {
               userInput="Hi";
             }
