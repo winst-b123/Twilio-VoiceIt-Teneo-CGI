@@ -152,6 +152,7 @@ const sessionHandler = this.SessionHandler();
                 }   
                     
             if(post.From!= OUTBOUND_NUMBER || TWILIO_MODE=="ivr") {
+             
              var mode = req.query["mode"];
                 if(mode!==undefined) {
                     TWILIO_MODE = mode;
@@ -171,7 +172,9 @@ const sessionHandler = this.SessionHandler();
                         phone = post.From;
                     }
                 }
+                var channel = TWILIO_MODE;
                  if(TWILIO_MODE=="whatsapp") {
+                     channel="twilio-whatsapp";
                 if(!phone.startsWith("whatsapp:")) {
                     phone = "whatsapp:" + phone;
                 }
@@ -210,7 +213,7 @@ const sessionHandler = this.SessionHandler();
                 }
   
 
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
 
 
@@ -327,8 +330,10 @@ const sessionHandler = this.SessionHandler();
             var mode = req.query["mode"];
                 if(mode!==undefined) {
                     TWILIO_MODE = mode;
+                    var channel = TWILIO_MODE;
                     if(mode=="whatsapp") {
                         OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER_WA;   
+                        channel = "twilio-whatsapp";
                     }
                     else {
                         OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER; 
@@ -365,7 +370,7 @@ const sessionHandler = this.SessionHandler();
                     email = "";
                 }
                 console.log("email: " + email);
-                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "arrearsContractNum":contractNum
+                    var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "arrearsContractNum":contractNum
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
                     console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
