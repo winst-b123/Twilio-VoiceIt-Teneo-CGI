@@ -335,7 +335,7 @@ const sessionHandler = this.SessionHandler();
                     sessionHandler.setSession(phone, teneoSessionId);
                      console.log("about to send message via " + TWILIO_MODE);
                     // return teneo answer to twilio
-                   if(TWILIO_MODE="sms") {
+                   if(TWILIO_MODE=="sms") {
                        sendTwilioMessage(teneoResponse, res, phone, TWILIO_OUTBOUND_NUMBER);
                         console.log(" number " + TWILIO_OUTBOUND_NUMBER);
                    }
