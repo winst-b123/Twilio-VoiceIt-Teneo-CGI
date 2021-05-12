@@ -155,10 +155,10 @@ const sessionHandler = this.SessionHandler();
                 const callSid = post.CallSid;
                 if(callSid===undefined) {
                     if(post.From== TWILIO_OUTBOUND_NUMBER_WA) {
-                        mode="whatsapp";
+                        TWILIO_MODE="whatsapp";
                     }
                     else {
-                        mode="sms";
+                        TWILIO_MODE="sms";
                     }
                 }
                 console.log("mode: " + TWILIO_MODE);  
