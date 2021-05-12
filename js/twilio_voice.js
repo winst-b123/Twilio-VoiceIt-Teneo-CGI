@@ -319,20 +319,8 @@ const sessionHandler = this.SessionHandler();
                }
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
-                const url = "https://" + req.headers["host"] + "/gather_default";
-                console.log("URL: " + url);
-                client.calls
-                .create({
-                    url: url,
-                    to: phone,
-                    from: TWILIO_OUTBOUND_NUMBER
-                })
-                .then(call =>
-                   // console.log(JSON.stringify(call)); 
-                   sessionHandler.setSession(phone, teneoSessionId)   
-                );
-                teneoSessionId = sessionHandler.getSession(phone);
-                /* var twiml = new VoiceResponse();
+                const url = "https://" + req.headers["host"] + "/";
+                var twiml = new VoiceResponse();
                         twiml.gather({
                             input: 'speech dtmf',
                             action: postPath.default,
@@ -344,8 +332,20 @@ const sessionHandler = this.SessionHandler();
                             voice: twilioVoiceName,
                             language: twilioLanguage
                         }, teneoResponse.output.text);
-                 res.writeHead(200, {'Content-Type': 'text/xml'});
-                        res.end(twiml.toString());*/
+                console.log("URL: " + url);
+                client.calls
+                .create({
+                    //url: url,
+                    twiml: twiml, 
+                    to: phone,
+                    from: TWILIO_OUTBOUND_NUMBER
+                })
+                .then(call =>
+                   // console.log(JSON.stringify(call)); 
+                   sessionHandler.setSession(phone, teneoSessionId)   
+                );
+                teneoSessionId = sessionHandler.getSession(phone);
+
             }
             else {
                 sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
