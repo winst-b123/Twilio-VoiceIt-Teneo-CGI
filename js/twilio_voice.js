@@ -314,6 +314,9 @@ const sessionHandler = this.SessionHandler();
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, phone);
                        teneoSessionId = sessionHandler.getSession(phone);
+                   console.log("session ID retrieved4: " + teneoSessionId);
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end();
                }
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
@@ -342,16 +345,19 @@ const sessionHandler = this.SessionHandler();
                             voice: twilioVoiceName,
                             language: twilioLanguage
                         }, teneoResponse.output.text);
+                 res.writeHead(200, {'Content-Type': 'text/xml'});
+                        res.end(twiml.toString());
             }
             else {
                 sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
                 // return teneo answer to twilio
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
                        teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
-            }
-            console.log("session ID retrieved4: " + teneoSessionId);
+                console.log("session ID retrieved4: " + teneoSessionId);
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
+            }
+            
         }
     }
     
