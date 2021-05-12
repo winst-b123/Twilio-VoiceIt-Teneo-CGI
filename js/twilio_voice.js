@@ -48,7 +48,7 @@ var teneoSessionId;
 
 
 // Initiates the biometric authentication solution
-var userInput = "Authentication";
+
 
 console.log("TENEO_ENGINE_URL: " + TENEO_ENGINE_URL);
 console.log("TWILIO_OUTBOUND_NUMBER: " + TWILIO_OUTBOUND_NUMBER);
@@ -133,7 +133,11 @@ const sessionHandler = this.SessionHandler();
             req.on('end', async function () {
                 // parse the body
                 var phone = req.query["phone"];
-                
+                 var userInput = req.query["userInput"];
+                if(userInput===undefined) {
+                    userInput = "";
+                }
+                console.log("userInput: " + userInput);  
                 if(userInput!="hi") {
                 var post = qs.parse(body);
                 console.log("post: " );
@@ -149,11 +153,7 @@ const sessionHandler = this.SessionHandler();
                         confidence = post.Confidence;
                     }
                 }   
-          var userInput = req.query["userInput"];
-                if(userInput===undefined) {
-                    userInput = "hi";
-                }
-                console.log("userInput: " + userInput);  
+         
           var contractNum = req.query["contractNum"];
                 if(contractNum===undefined) {
                     contractNum = "";
