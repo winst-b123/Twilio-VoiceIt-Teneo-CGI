@@ -330,7 +330,7 @@ const sessionHandler = this.SessionHandler();
                     if(mode=="whatsapp") {
                         OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER_WA;   
                     }
-                    else if(mode="sms") {
+                    else {
                         OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER; 
                     }
                 }
@@ -389,23 +389,11 @@ const sessionHandler = this.SessionHandler();
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
                 const url = "https://" + req.headers["host"] + "/";
-                var twiml = new VoiceResponse();
-                        twiml.gather({
-                            input: 'speech dtmf',
-                            action: postPath.default,
-                            actionOnEmptyResult: false,
-                            language: twilioLanguage,
-                            timeout: 5,
-                            speechTimeout: "auto"
-                        }).say({
-                            voice: twilioVoiceName,
-                            language: twilioLanguage
-                        }, teneoResponse.output.text);
+              
                 console.log("URL: " + url);
                 client.calls
                 .create({
                     url: url,
-                    twiml: twiml.toString(), 
                     to: phone,
                     from: TWILIO_OUTBOUND_NUMBER
                 })
