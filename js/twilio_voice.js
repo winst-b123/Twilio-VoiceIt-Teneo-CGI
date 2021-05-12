@@ -51,6 +51,9 @@ var teneoSessionId;
 var userInput = "Authentication";
 
 console.log("TENEO_ENGINE_URL: " + TENEO_ENGINE_URL);
+console.log("TWILIO_OUTBOUND_NUMBER: " + TWILIO_OUTBOUND_NUMBER);
+console.log("TWILIO_OUTBOUND_NUMBER_WA: " + TWILIO_OUTBOUND_NUMBER_WA);
+
 
 function _stringify (o)
 {
@@ -71,7 +74,7 @@ function _stringify (o)
   return JSON.stringify( o, decircularise() );
 }
     // compose and send message
-function sendTwilioMessage(teneoResponse, res, triggerFrom, OUTBOUND_NUMBER) {
+function sendTwilioMessage(teneoResponse, res, triggerFrom, sendFrom) {
 const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 var mediaUrl="";
 // Detect if Teneo solution have provided a Twilio action as output parameter
@@ -90,10 +93,10 @@ if(Object.keys(teneoResponse.output.parameters).length !== 0) {
 if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
     console.log('trying to send outbound message: ${teneoResponse.output.text}');
     console.log(`to: ${triggerFrom}`)
-    console.log(`from: ${OUTBOUND_NUMBER}`)
+    console.log(`from: ${sendFrom}`)
 client.messages
       .create({
-         from: OUTBOUND_NUMBER,
+         from: sendFrom,
          body:  teneoResponse.output.text + "" + mediaUrl,
          to: triggerFrom
        })
