@@ -146,7 +146,11 @@ const sessionHandler = this.SessionHandler();
                         confidence = post.Confidence;
                     }
                 }   
-                    
+          var userInput = req.query["userInput"];
+                if(userInput===undefined) {
+                    userInput = "hi";
+                }
+                console.log("userInput: " + userInput);  
           var contractNum = req.query["contractNum"];
                 if(contractNum===undefined) {
                     contractNum = "";
@@ -414,7 +418,7 @@ const sessionHandler = this.SessionHandler();
             
             if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
-                const url = "https://" + req.headers["host"] + "/?phone="+phone+"&contractNum="+contractNum+"&arrears="+arrears+"&fname="+fname+"&numMissed="+numMissed+"&daysSince="+daysSince;
+                const url = "https://" + req.headers["host"] + "/?phone="+phone+"&contractNum="+contractNum+"&userInput="+userInput+"&arrears="+arrears+"&fname="+fname+"&numMissed="+numMissed+"&daysSince="+daysSince;
               
                 console.log("URL: " + url);
                 client.calls
