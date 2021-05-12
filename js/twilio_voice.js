@@ -95,10 +95,10 @@ if(Object.keys(teneoResponse.output.parameters).length !== 0) {
 if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
     console.log('trying to send outbound message: ${teneoResponse.output.text}');
     console.log(`to: ${triggerFrom}`)
-    console.log(`from: ${TWILIO_OUTBOUND_NUMBER}`)
+    console.log(`from: ${OUTBOUND_NUMBER}`)
 client.messages
       .create({
-         from: TWILIO_OUTBOUND_NUMBER,
+         from: OUTBOUND_NUMBER,
          body:  teneoResponse.output.text + "" + mediaUrl,
          to: triggerFrom
        })
@@ -151,7 +151,7 @@ const sessionHandler = this.SessionHandler();
                     }
                 }   
                     
-            if(post.From!=TWILIO_OUTBOUND_NUMBER || TWILIO_MODE=="ivr") {
+            if(post.From!= OUTBOUND_NUMBER || TWILIO_MODE=="ivr") {
              var mode = req.query["mode"];
                 if(mode!==undefined) {
                     TWILIO_MODE = mode;
