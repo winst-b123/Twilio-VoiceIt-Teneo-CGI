@@ -13,7 +13,10 @@ const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN,
-    TWILIO_OUTBOUND_NUMBER
+    TWILIO_OUTBOUND_NUMBER,
+    LANGUAGE_STT,
+    LANGUAGE_TTS,
+    TWILIO_OUTBOUND_NUMBER_WA
 } = process.env;
 
 const postPath = {
@@ -21,6 +24,8 @@ const postPath = {
 };
 
 const teneoApi = TIE.init(TENEO_ENGINE_URL);
+const twilioLanguage = LANGUAGE_STT || 'en-US'; // See: https://www.twilio.com/docs/voice/twiml/gather#languagetags
+const twilioVoiceName = LANGUAGE_TTS || 'Polly.Joanna'; // See: https://www.twilio.com/docs/voice/twiml/say/text-speech#amazon-polly
 
 let twilioActions = {
     gather_default: '/gather_default',
@@ -39,6 +44,7 @@ var phone = "";
 var flow = "";
 var teneoSessionId;
  var TWILIO_MODE = "ivr";
+var OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER;
 
 // Initiates the biometric authentication solution
 var userInput = "Authentication";
@@ -255,6 +261,9 @@ const sessionHandler = this.SessionHandler();
             var mode = req.query["mode"];
                 if(mode!==undefined) {
                     TWILIO_MODE = mode;
+                    if(mode=="whatsapp") {
+                        OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER_WA;   
+                    }
                 }
                 console.log("mode: " + TWILIO_MODE);         
             var contractNum = req.query["contractNum"];
