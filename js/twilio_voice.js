@@ -330,6 +330,9 @@ const sessionHandler = this.SessionHandler();
                     if(mode=="whatsapp") {
                         OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER_WA;   
                     }
+                    else if(mode="sms") {
+                        OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER; 
+                    }
                 }
                 console.log("mode: " + TWILIO_MODE);         
             contractNum = req.query["contractNum"];
