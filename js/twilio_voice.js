@@ -2,6 +2,7 @@
 
 const qs = require('querystring');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const VoiceResponse = require('twilio').twiml.VoiceResponse;
 const TIE = require('@artificialsolutions/tie-api-client');
 const dotenv = require('dotenv');
 dotenv.config();
