@@ -12,8 +12,7 @@ const {
     TENEO_ENGINE_URL,
     TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN,
-    TWILIO_OUTBOUND_NUMBER,
-    TWILIO_MODE
+    TWILIO_OUTBOUND_NUMBER
 } = process.env;
 
 const postPath = {
@@ -153,11 +152,16 @@ const sessionHandler = this.SessionHandler();
                 console.log("Phone: " + phone);
                 
                 // get the caller id
-                //const callSid = post.CallSid;
+                const callSid = post.CallSid;
 
 
                 // check if we have stored an engine sessionid for this caller
+                if(TWILIO_MODE=="ivr") {
+                    teneoSessionId = sessionHandler.getSession(callSid);
+                }
+                else {
                 teneoSessionId = sessionHandler.getSession(phone);
+                }
                 
                 console.log("session ID retrieved: " + teneoSessionId);
 
@@ -191,10 +195,29 @@ const sessionHandler = this.SessionHandler();
                 console.log("Output response 3: " + teneoResponse.output.text);
 
                 // store engine sessionid for this sender
-                sessionHandler.setSession(phone, teneoSessionId);
-
-                // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse, res, phone);
+                if(TWILIO_MODE=="ivr") {
+                    sessionHandler.setSession(callSid, teneoSessionId);
+                     var twiml = new VoiceResponse();
+                        twiml.gather({
+                            input: 'speech dtmf',
+                            action: postPath.default,
+                            actionOnEmptyResult: false,
+                            language: twilioLanguage,
+                            timeout: 5,
+                            speechTimeout: "auto"
+                        }).say({
+                            voice: twilioVoiceName,
+                            language: twilioLanguage
+                        }, teneoResponse.output.text);
+                        res.writeHead(200, {'Content-Type': 'text/xml'});
+                        res.end(twiml.toString());
+                }
+                else {
+                    sessionHandler.setSession(phone, teneoSessionId);
+                    // return teneo answer to twilio
+                    sendTwilioMessage(teneoResponse, res, phone);
+                }
+                  
                    
                 } 
                 }
@@ -210,7 +233,7 @@ const sessionHandler = this.SessionHandler();
     handleOutboundCalls() {
   const sessionHandler = this.SessionHandler();
         return async (req, res) => {
-            console.log("IN HANDLE OUTBOUND WHATSAPP!");
+            console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
@@ -278,6 +301,24 @@ const sessionHandler = this.SessionHandler();
                 sendTwilioMessage(teneoResponse, res, phone);
                        teneoSessionId = sessionHandler.getSession(phone);
                }
+            else if(TWILIO_MODE=="ivr") {
+                const callSid = post.CallSid;
+                const url = "https://" + req.headers["host"] + "/";
+                console.log("URL: " + url);
+                client.calls
+                .create({
+                    url: url,
+                    to: phone,
+                    from: TWILIO_OUTBOUND_NUMBER
+                })
+                .then(call =>
+                   // console.log(JSON.stringify(call)); 
+                   sessionHandler.setSession(call.sid, teneoSessionId)   
+                );
+           
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end();
+            }
             else {
                 sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
                 // return teneo answer to twilio
