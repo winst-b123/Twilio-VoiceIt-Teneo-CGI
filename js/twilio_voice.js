@@ -135,6 +135,16 @@ const sessionHandler = this.SessionHandler();
                 console.log(_stringify(post));
                   var from = post.From;
                  console.log(`from: ${from}`);
+                  // Detect if userinput exists
+                if (post.CallStatus === 'in-progress' && post.SpeechResult) {
+                    userInput = post.SpeechResult;
+                    console.log("User said: " + userInput);
+                    // Capture confidence score
+                    if (post.Confidence) {
+                        confidence = post.Confidence;
+                    }
+                }   
+                    
             if(post.From!=TWILIO_OUTBOUND_NUMBER || TWILIO_MODE=="ivr") {
              var mode = req.query["mode"];
                 if(mode!==undefined) {
@@ -142,7 +152,9 @@ const sessionHandler = this.SessionHandler();
                 }
                 console.log("mode: " + TWILIO_MODE);  
             // get message from user
-               userInput = post.Body;
+                if(post.Body!==undefined) {
+                    userInput = post.Body;
+                }
                console.log(`userInput: ${userInput}`);
                 if(phone === "") {
                     if("phone" in req.query) {
