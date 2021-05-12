@@ -247,7 +247,7 @@ const sessionHandler = this.SessionHandler();
   
                 var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0};
                 
-                if(post.From==TWILIO_OUTBOUND_NUMBER && TWILIO_MODE=="ivr") {
+                if(post.From==TWILIO_OUTBOUND_NUMBER && TWILIO_MODE=="ivr" && req.query["contractNum"]!==undefined) {
                    contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
                 }
