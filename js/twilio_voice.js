@@ -174,6 +174,15 @@ const sessionHandler = this.SessionHandler();
                 console.log("mode in inbound: " + TWILIO_MODE);        
 
                 var parameters = {};
+                // Detect digit input from the user, add additional if statement to capture timeout
+                if(post.Digits !== "timeout" && post.Digits) {
+                    parameters["keypress"] = post.Digits;
+                }
+
+                // Detect if recording exists from input
+                if(post.RecordingSid) {
+                    parameters["url"] = post.RecordingUrl;
+                }
                 var MediaUrl0 = post.MediaUrl0;   
                 console.log(`MURL: ${MediaUrl0}`);
                 parameters["phone"] = phone;
@@ -200,11 +209,17 @@ const sessionHandler = this.SessionHandler();
                 }
                
                 console.log("Output response 3: " + teneoResponse.output.text);
-
-                // store engine sessionid for this sender
-                if(TWILIO_MODE=="ivr") {
+                 if(TWILIO_MODE=="ivr") {
                     sessionHandler.setSession(phone, teneoSessionId);
-                     var twiml = new VoiceResponse();
+                if(twilioAction === postPath.default) {
+                    twilioAction = twilioActions.gather_default;
+                }
+
+                switch (twilioAction) {
+
+                    // Twilio action to handle voice inputs by end-user, speaking to the end user and then capturing the voice subsequently.
+                    case twilioActions.gather_default:
+                        var twiml = new VoiceResponse();
                         twiml.gather({
                             input: 'speech dtmf',
                             action: postPath.default,
@@ -218,6 +233,37 @@ const sessionHandler = this.SessionHandler();
                         }, teneoResponse.output.text);
                         res.writeHead(200, {'Content-Type': 'text/xml'});
                         res.end(twiml.toString());
+                        break;
+
+                    // Twilio action to handle voice recording by end-user, starts with a beep and records the audio to a audio file.
+                    case twilioActions.record_default:
+                        var twiml = new VoiceResponse();
+                        twiml.say({
+                            voice: twilioVoiceName,
+                            language: twilioLanguage
+                        }, teneoResponse.output.text);
+                        twiml.record({
+                            action: postPath.default,
+                            maxLength: 5,
+                            trim: 'do-not-trim'
+                        });
+                        res.writeHead(200, {'Content-Type': 'text/xml'});
+                        res.end(twiml.toString());
+                        break;
+
+                    case twilioActions.hang_up:
+                        var twiml = new VoiceResponse();
+                        twiml.say({
+                            voice: twilioVoiceName,
+                            language: twilioLanguage
+                        }, teneoResponse.output.text);
+                        twiml.hangup();
+                        res.writeHead(200, {'Content-Type': 'text/xml'});
+                        res.end(twiml.toString());
+                        break;
+                }
+
+              
                 }
                 else {
                     sessionHandler.setSession(phone, teneoSessionId);
