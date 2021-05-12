@@ -37,6 +37,7 @@ var confidence = "";
 var phone = "";
 var flow = "";
 var teneoSessionId;
+ var TWILIO_MODE = "ivr";
 
 // Initiates the biometric authentication solution
 var userInput = "Authentication";
@@ -128,9 +129,9 @@ const sessionHandler = this.SessionHandler();
                   var from = post.From;
                  console.log(`from: ${from}`);
             if(post.From!=TWILIO_OUTBOUND_NUMBER) {
-             var TWILIO_MODE = req.query["mode"];
-                if(TWILIO_MODE===undefined) {
-                    TWILIO_MODE = "ivr";
+             var mode = req.query["mode"];
+                if(mode!==undefined) {
+                    TWILIO_MODE = mode;
                 }
                 console.log("mode: " + TWILIO_MODE);  
             // get message from user
@@ -249,9 +250,9 @@ const sessionHandler = this.SessionHandler();
             
                     var parameters = {};
                     parameters["phone"] = phone;
-           var TWILIO_MODE = req.query["mode"];
-                if(TWILIO_MODE===undefined) {
-                    TWILIO_MODE = "ivr";
+            var mode = req.query["mode"];
+                if(mode!==undefined) {
+                    TWILIO_MODE = mode;
                 }
                 console.log("mode: " + TWILIO_MODE);         
             var contractNum = req.query["contractNum"];
