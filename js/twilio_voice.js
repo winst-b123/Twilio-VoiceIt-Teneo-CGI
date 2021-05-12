@@ -135,7 +135,7 @@ const sessionHandler = this.SessionHandler();
                 console.log(_stringify(post));
                   var from = post.From;
                  console.log(`from: ${from}`);
-            if(post.From!=TWILIO_OUTBOUND_NUMBER) {
+            if(post.From!=TWILIO_OUTBOUND_NUMBER || TWILIO_MODE=="ivr") {
              var mode = req.query["mode"];
                 if(mode!==undefined) {
                     TWILIO_MODE = mode;
