@@ -315,8 +315,7 @@ const sessionHandler = this.SessionHandler();
                 sendTwilioMessage(teneoResponse, res, phone);
                        teneoSessionId = sessionHandler.getSession(phone);
                    console.log("session ID retrieved4: " + teneoSessionId);
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end();
+
                }
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
@@ -324,7 +323,7 @@ const sessionHandler = this.SessionHandler();
                 console.log("URL: " + url);
                 client.calls
                 .create({
-                    url: url,
+                    body: teneoResponse.output.text,
                     to: phone,
                     from: TWILIO_OUTBOUND_NUMBER
                 })
@@ -333,7 +332,7 @@ const sessionHandler = this.SessionHandler();
                    sessionHandler.setSession(phone, teneoSessionId)   
                 );
                 teneoSessionId = sessionHandler.getSession(phone);
-                 var twiml = new VoiceResponse();
+                /* var twiml = new VoiceResponse();
                         twiml.gather({
                             input: 'speech dtmf',
                             action: postPath.default,
@@ -346,7 +345,7 @@ const sessionHandler = this.SessionHandler();
                             language: twilioLanguage
                         }, teneoResponse.output.text);
                  res.writeHead(200, {'Content-Type': 'text/xml'});
-                        res.end(twiml.toString());
+                        res.end(twiml.toString());*/
             }
             else {
                 sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
@@ -354,10 +353,9 @@ const sessionHandler = this.SessionHandler();
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
                        teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
                 console.log("session ID retrieved4: " + teneoSessionId);
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end();
             }
-            
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end();  
         }
     }
     
