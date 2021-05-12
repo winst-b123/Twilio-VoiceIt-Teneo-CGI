@@ -45,7 +45,7 @@ var flow = "";
 
 var teneoSessionId;
 
-var OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER;
+
 
 // Initiates the biometric authentication solution
 var userInput = "Authentication";
@@ -71,7 +71,7 @@ function _stringify (o)
   return JSON.stringify( o, decircularise() );
 }
     // compose and send message
-function sendTwilioMessage(teneoResponse, res, triggerFrom) {
+function sendTwilioMessage(teneoResponse, res, triggerFrom, OUTBOUND_NUMBER) {
 const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 var mediaUrl="";
 // Detect if Teneo solution have provided a Twilio action as output parameter
@@ -130,6 +130,7 @@ const sessionHandler = this.SessionHandler();
             req.on('end', async function () {
                 // parse the body
                 var phone = req.query["phone"];
+                
                 if(userInput!="hi") {
                 var post = qs.parse(body);
                 console.log("post: " );
@@ -326,7 +327,13 @@ const sessionHandler = this.SessionHandler();
                 else {
                     sessionHandler.setSession(phone, teneoSessionId);
                     // return teneo answer to twilio
-                    sendTwilioMessage(teneoResponse, res, phone);
+                   if(TWILIO_MODE="sms") {
+                       sendTwilioMessage(teneoResponse, res, phone, TWILIO_OUTBOUND_NUMBER);
+                   }
+                    else {
+                        
+                    sendTwilioMessage(teneoResponse, res, phone, TWILIO_OUTBOUND_NUMBER_WA);
+                    }
                 }
                   
                    
@@ -369,12 +376,9 @@ const sessionHandler = this.SessionHandler();
                     TWILIO_MODE = mode;
                     var channel = TWILIO_MODE;
                     if(mode=="whatsapp") {
-                        OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER_WA;   
                         channel = "twilio-whatsapp";
                     }
-                    else {
-                        OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER; 
-                    }
+
                 }
                 console.log("mode: " + TWILIO_MODE);         
             var contractNum = req.query["contractNum"];
@@ -438,14 +442,13 @@ const sessionHandler = this.SessionHandler();
                     console.log("session ID retrieved3: " + teneoSessionId);
                      console.log("Output response 1: " + teneoResponse.output.text);
   
-            
           
             // store engine sessionid for this sender
             
                if(TWILIO_MODE=="sms") {
                    sessionHandler.setSession(phone, teneoSessionId);
                 // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse, res, phone);
+                sendTwilioMessage(teneoResponse, res, phone,TWILIO_OUTBOUND_NUMBER);
                        teneoSessionId = sessionHandler.getSession(phone);
                    console.log("session ID retrieved4: " + teneoSessionId);
 
@@ -453,7 +456,7 @@ const sessionHandler = this.SessionHandler();
             else {
                 sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
                 // return teneo answer to twilio
-                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone);
+                sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone, TWILIO_OUTBOUND_NUMBER_WA);
                        teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
                 console.log("session ID retrieved4: " + teneoSessionId);
             }
