@@ -210,7 +210,8 @@ const sessionHandler = this.SessionHandler();
                 }
   
 
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0};
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
+                                         , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
 
 
                 console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
