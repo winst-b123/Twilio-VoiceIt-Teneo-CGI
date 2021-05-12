@@ -42,6 +42,12 @@ var teneoResponse = null;
 var confidence = "";
 var phone = "";
 var flow = "";
+var arrears="";
+var contractNum="";
+var fname="";
+var numMissed="";
+var daysSince="";
+var email="";
 var teneoSessionId;
  var TWILIO_MODE = "ivr";
 var OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER;
@@ -324,32 +330,32 @@ const sessionHandler = this.SessionHandler();
                     }
                 }
                 console.log("mode: " + TWILIO_MODE);         
-            var contractNum = req.query["contractNum"];
+            contractNum = req.query["contractNum"];
                 if(contractNum===undefined) {
                     contractNum = "";
                 }
                 console.log("contractNum: " + contractNum);
-            var arrears= req.query["arrears"];
+            arrears= req.query["arrears"];
                 if(arrears===undefined) {
                     arrears = "0.00";
                 }
                 console.log("arrears: " + arrears);
-            var fname= req.query["fname"];
+            fname= req.query["fname"];
                 if(fname===undefined) {
                     fname = "";
                 }
                 console.log("fname: " + fname);
-            var numMissed = req.query["numMissed"];
+            numMissed = req.query["numMissed"];
                 if(numMissed===undefined) {
                     numMissed = "";
                 }
                 console.log("numMissed: " + numMissed);
-             var daysSince = req.query["daysSince"];
+             daysSince = req.query["daysSince"];
                 if(daysSince===undefined) {
                     daysSince = "";
                 }
                 console.log("daysSince: " + daysSince);
-             var email = req.query["email"];
+             email = req.query["email"];
                 if(email===undefined) {
                     email = "";
                 }
@@ -377,7 +383,7 @@ const sessionHandler = this.SessionHandler();
                }
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
-                const url = "https://" + req.headers["host"] + "/";
+                const url = "https://" + req.headers["host"] + "/?fname="+fname+"&contractNum="+contractNum;
                 var twiml = new VoiceResponse();
                         twiml.gather({
                             input: 'speech dtmf',
