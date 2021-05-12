@@ -321,6 +321,7 @@ const sessionHandler = this.SessionHandler();
   const sessionHandler = this.SessionHandler();
         return async (req, res) => {
              var TWILIO_MODE = "ivr";   
+            var phone = "";
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
