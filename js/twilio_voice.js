@@ -128,6 +128,11 @@ const sessionHandler = this.SessionHandler();
                   var from = post.From;
                  console.log(`from: ${from}`);
             if(post.From!=TWILIO_OUTBOUND_NUMBER) {
+             var TWILIO_MODE = req.query["mode"];
+                if(TWILIO_MODE===undefined) {
+                    TWILIO_MODE = "ivr";
+                }
+                console.log("mode: " + TWILIO_MODE);  
             // get message from user
                userInput = post.Body;
                console.log(`userInput: ${userInput}`);
@@ -139,9 +144,7 @@ const sessionHandler = this.SessionHandler();
                         phone = post.From;
                     }
                 }
-                 if(TWILIO_MODE=="sms") {
-                 }
-                else {
+                 if(TWILIO_MODE=="whatsapp") {
                 if(!phone.startsWith("whatsapp:")) {
                     phone = "whatsapp:" + phone;
                 }
@@ -152,17 +155,13 @@ const sessionHandler = this.SessionHandler();
                 console.log("Phone: " + phone);
                 
                 // get the caller id
-                const callSid = post.CallSid;
+                //const callSid = post.CallSid;
 
 
                 // check if we have stored an engine sessionid for this caller
-                if(TWILIO_MODE=="ivr") {
-                    teneoSessionId = sessionHandler.getSession(callSid);
-                }
-                else {
+              
                 teneoSessionId = sessionHandler.getSession(phone);
-                }
-                
+                                
                 console.log("session ID retrieved: " + teneoSessionId);
 
                 var parameters = {};
@@ -172,8 +171,7 @@ const sessionHandler = this.SessionHandler();
                 if(MediaUrl0===undefined){
                     MediaUrl0="";
                 }
-                
-                
+  
 
                 var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":"twilio-whatsapp", "mediaurl":MediaUrl0};
 
@@ -196,7 +194,7 @@ const sessionHandler = this.SessionHandler();
 
                 // store engine sessionid for this sender
                 if(TWILIO_MODE=="ivr") {
-                    sessionHandler.setSession(callSid, teneoSessionId);
+                    sessionHandler.setSession(phone, teneoSessionId);
                      var twiml = new VoiceResponse();
                         twiml.gather({
                             input: 'speech dtmf',
@@ -251,7 +249,11 @@ const sessionHandler = this.SessionHandler();
             
                     var parameters = {};
                     parameters["phone"] = phone;
-                    
+           var TWILIO_MODE = req.query["mode"];
+                if(TWILIO_MODE===undefined) {
+                    TWILIO_MODE = "ivr";
+                }
+                console.log("mode: " + TWILIO_MODE);         
             var contractNum = req.query["contractNum"];
                 if(contractNum===undefined) {
                     contractNum = "";
@@ -302,7 +304,7 @@ const sessionHandler = this.SessionHandler();
                        teneoSessionId = sessionHandler.getSession(phone);
                }
             else if(TWILIO_MODE=="ivr") {
-                const callSid = post.CallSid;
+                //const callSid = post.CallSid;
                 const url = "https://" + req.headers["host"] + "/";
                 console.log("URL: " + url);
                 client.calls
@@ -313,9 +315,9 @@ const sessionHandler = this.SessionHandler();
                 })
                 .then(call =>
                    // console.log(JSON.stringify(call)); 
-                   sessionHandler.setSession(call.sid, teneoSessionId)   
+                   sessionHandler.setSession(phone, teneoSessionId)   
                 );
-           
+                teneoSessionId = sessionHandler.getSession(phone);
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
             }
