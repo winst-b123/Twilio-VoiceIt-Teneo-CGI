@@ -185,7 +185,7 @@ const sessionHandler = this.SessionHandler();
                  // get the caller id
                 const callSid = post.CallSid;
                 if(callSid===undefined) {
-                    if(post.From== TWILIO_OUTBOUND_NUMBER_WA) {
+                    if(post.From== TWILIO_OUTBOUND_NUMBER_WA || post.To==TWILIO_OUTBOUND_NUMBER_WA) {
                         TWILIO_MODE="whatsapp";
                     }
                     else {
