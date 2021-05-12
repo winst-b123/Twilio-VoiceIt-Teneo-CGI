@@ -157,6 +157,7 @@ const sessionHandler = this.SessionHandler();
                     TWILIO_MODE = mode;
                 }
                 console.log("mode: " + TWILIO_MODE);  
+                console.log("contractNum: " + contractNum);
             // get message from user
                 if(post.Body!==undefined) {
                     userInput = post.Body;
