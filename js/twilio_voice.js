@@ -164,6 +164,7 @@ const sessionHandler = this.SessionHandler();
                 teneoSessionId = sessionHandler.getSession(phone);
                                 
                 console.log("session ID retrieved: " + teneoSessionId);
+                console.log("mode in inbound: " + TWILIO_MODE);        
 
                 var parameters = {};
                 var MediaUrl0 = post.MediaUrl0;   
