@@ -320,8 +320,18 @@ const sessionHandler = this.SessionHandler();
                    sessionHandler.setSession(phone, teneoSessionId)   
                 );
                 teneoSessionId = sessionHandler.getSession(phone);
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end();
+                 var twiml = new VoiceResponse();
+                        twiml.gather({
+                            input: 'speech dtmf',
+                            action: postPath.default,
+                            actionOnEmptyResult: false,
+                            language: twilioLanguage,
+                            timeout: 5,
+                            speechTimeout: "auto"
+                        }).say({
+                            voice: twilioVoiceName,
+                            language: twilioLanguage
+                        }, teneoResponse.output.text);
             }
             else {
                 sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
