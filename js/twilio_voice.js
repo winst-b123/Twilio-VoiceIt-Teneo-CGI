@@ -383,7 +383,7 @@ const sessionHandler = this.SessionHandler();
                }
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
-                const url = "https://" + req.headers["host"] + "/?fname="+fname+"&contractNum="+contractNum;
+                const url = "https://" + req.headers["host"] + "/";
                 var twiml = new VoiceResponse();
                         twiml.gather({
                             input: 'speech dtmf',
