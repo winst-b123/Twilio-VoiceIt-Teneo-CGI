@@ -319,11 +319,11 @@ const sessionHandler = this.SessionHandler();
                }
             else if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
-                const url = "https://" + req.headers["host"] + "/";
+                const url = "https://" + req.headers["host"] + "/gather_default";
                 console.log("URL: " + url);
                 client.calls
                 .create({
-                    body: teneoResponse.output.text,
+                    url: url,
                     to: phone,
                     from: TWILIO_OUTBOUND_NUMBER
                 })
