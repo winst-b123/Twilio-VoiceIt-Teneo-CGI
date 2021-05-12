@@ -218,10 +218,12 @@ const sessionHandler = this.SessionHandler();
                     MediaUrl0="";
                 }
   
-
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0};
+                
+                if(post.From==TWILIO_OUTBOUND_NUMBER && TWILIO_MODE=="ivr") {
+                   contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
-
+                }
 
                 console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
                 
