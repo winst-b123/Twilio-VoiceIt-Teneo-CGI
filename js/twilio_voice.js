@@ -49,7 +49,7 @@ var numMissed="";
 var daysSince="";
 var email="";
 var teneoSessionId;
- var TWILIO_MODE = "ivr";
+
 var OUTBOUND_NUMBER = TWILIO_OUTBOUND_NUMBER;
 
 // Initiates the biometric authentication solution
@@ -150,14 +150,20 @@ const sessionHandler = this.SessionHandler();
                         confidence = post.Confidence;
                     }
                 }   
-                    
-            if(post.From!= OUTBOUND_NUMBER || TWILIO_MODE=="ivr") {
-             
-             var mode = req.query["mode"];
-                if(mode!==undefined) {
-                    TWILIO_MODE = mode;
+            var TWILIO_MODE = "ivr";   
+                 // get the caller id
+                const callSid = post.CallSid;
+                if(callSid===undefined) {
+                    if(post.From== TWILIO_OUTBOUND_NUMBER_WA) {
+                        mode="whatsapp";
+                    }
+                    else {
+                        mode="sms";
+                    }
                 }
                 console.log("mode: " + TWILIO_MODE);  
+            if((post.From!= TWILIO_OUTBOUND_NUMBER_WA && post.From!=TWILIO_OUTBOUND_NUMBER) || TWILIO_MODE=="ivr") {
+  
                 console.log("contractNum: " + contractNum);
             // get message from user
                 if(post.Body!==undefined) {
@@ -173,6 +179,7 @@ const sessionHandler = this.SessionHandler();
                     }
                 }
                 var channel = TWILIO_MODE;
+
                  if(TWILIO_MODE=="whatsapp") {
                      channel="twilio-whatsapp";
                 if(!phone.startsWith("whatsapp:")) {
@@ -184,8 +191,7 @@ const sessionHandler = this.SessionHandler();
                 }
                 console.log("Phone: " + phone);
                 
-                // get the caller id
-                //const callSid = post.CallSid;
+                
 
 
                 // check if we have stored an engine sessionid for this caller
@@ -309,6 +315,7 @@ const sessionHandler = this.SessionHandler();
     handleOutboundCalls() {
   const sessionHandler = this.SessionHandler();
         return async (req, res) => {
+             var TWILIO_MODE = "ivr";   
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
