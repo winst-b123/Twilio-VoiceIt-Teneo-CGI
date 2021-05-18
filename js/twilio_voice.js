@@ -292,6 +292,7 @@ const sessionHandler = this.SessionHandler();
                             actionOnEmptyResult: false,
                             language: twilioLanguage,
                             timeout: 4,
+                            speechModel: "numbers_and_commands",
                             speechTimeout: "auto"
                         }).say({
                             voice: twilioVoiceName,
