@@ -291,7 +291,7 @@ const sessionHandler = this.SessionHandler();
                             action: postPath.default,
                             actionOnEmptyResult: false,
                             language: twilioLanguage,
-                            timeout: 5,
+                            timeout: 4,
                             speechTimeout: "auto"
                         }).say({
                             voice: twilioVoiceName,
@@ -310,7 +310,7 @@ const sessionHandler = this.SessionHandler();
                         }, teneoResponse.output.text);
                         twiml.record({
                             action: postPath.default,
-                            maxLength: 5,
+                            maxLength: 4,
                             trim: 'do-not-trim'
                         });
                         res.writeHead(200, {'Content-Type': 'text/xml'});
