@@ -183,7 +183,20 @@ const sessionHandler = this.SessionHandler();
                 if(email===undefined) {
                     email = "";
                 }
-                console.log("email: " + email);        
+                console.log("email: " + email);  
+              const passedSessionId=req.query["session"];  
+            console.log("Passed session: " + passedSessionId);
+            if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+                teneoSessionId=""
+            }
+            else {
+                teneoSessionId=passedSessionId;   
+                 console.log("session: " + teneoSessionId);
+                userInput = "switchover success"; 
+                sessionHandler.setSession(phone, teneoSessionId);
+            }       
+                    
+                    
             var TWILIO_MODE = "ivr";   
                  // get the caller id
                 const callSid = post.CallSid;
@@ -370,9 +383,24 @@ const sessionHandler = this.SessionHandler();
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
             console.log("Phone: " + phone);
+            
+             const passedSessionId=req.query["session"];  
+            console.log("Passed session: " + passedSessionId);
+            if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+                teneoSessionId=""
+            }
+            else {
+                teneoSessionId=passedSessionId;   
+                 console.log("session: " + teneoSessionId);
+                userInput = "switchover success"; 
+                sessionHandler.setSession(phone, teneoSessionId);
+            }
+            
             // check if we have stored an engine sessionid for this caller
+            if(teneoSessionId=="") {
              teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
             console.log("session ID retrieved2: " + teneoSessionId);
+            }
             var userInput = req.query["userInput"];   
             if(userInput===undefined || userInput===null || userInput=="") {
               userInput="Hi";
@@ -426,7 +454,7 @@ const sessionHandler = this.SessionHandler();
             
             if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
-                const url = "https://" + req.headers["host"] + "/?phone="+phone+"&contractNum="+contractNum+"&email="+email+"&userInput="+userInput+"&arrears="+arrears+"&fname="+fname+"&numMissed="+numMissed+"&daysSince="+daysSince;
+                const url = "https://" + req.headers["host"] + "/?phone="+phone+"&session="+teneoSessionId+"&contractNum="+contractNum+"&email="+email+"&userInput="+userInput+"&arrears="+arrears+"&fname="+fname+"&numMissed="+numMissed+"&daysSince="+daysSince;
               
                 console.log("URL: " + url);
                 client.calls
