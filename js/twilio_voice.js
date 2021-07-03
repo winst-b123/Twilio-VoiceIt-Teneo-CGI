@@ -192,7 +192,7 @@ const sessionHandler = this.SessionHandler();
             else {
                 teneoSessionId=passedSessionId;   
                  console.log("session: " + teneoSessionId);
-                userInput = "switchover success"; 
+                //userInput = "switchoversuccess"; 
                 sessionHandler.setSession(phone, teneoSessionId);
             }       
                     
@@ -392,7 +392,6 @@ const sessionHandler = this.SessionHandler();
             else {
                 teneoSessionId=passedSessionId;   
                  console.log("session: " + teneoSessionId);
-                userInput = "switchover success"; 
                 sessionHandler.setSession(phone, teneoSessionId);
             }
             
