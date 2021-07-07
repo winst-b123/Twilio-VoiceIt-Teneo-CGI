@@ -500,7 +500,7 @@ const sessionHandler = this.SessionHandler();
                        teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
                 console.log("session ID retrieved4: " + teneoSessionId);
             }
-                res.writeHead(200, {'Content-Type': 'text/xml'});
+                //res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.writeHead(301,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
                 res.end();  
             }
