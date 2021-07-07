@@ -83,10 +83,10 @@ if(Object.keys(teneoResponse.output.parameters).length !== 0) {
       mediaUrl = teneoResponse.output.parameters["MediaUrl"];
       console.log("Media URL: " + mediaUrl);
        if( mediaUrl!==undefined && mediaUrl!==null && mediaUrl!="") { 
-            //mediaUrl = " (" + mediaUrl + ")";   
+            mediaUrl = " [" + mediaUrl + "]";   
        }
        else {
-          //mediaUrl="";   
+          mediaUrl="";   
        }
    }
 }
@@ -97,7 +97,7 @@ if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
 client.messages
       .create({
          from: sendFrom,
-         body:  teneoResponse.output.text,
+         body:  teneoResponse.output.text + mediaUrl,
          to: triggerFrom,
          mediaUrL: [mediaUrl]
        })
