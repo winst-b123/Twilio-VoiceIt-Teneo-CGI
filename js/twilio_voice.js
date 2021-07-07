@@ -86,7 +86,7 @@ if(Object.keys(teneoResponse.output.parameters).length !== 0) {
             //mediaUrl = " (" + mediaUrl + ")";   
        }
        else {
-          mediaUrl="";   
+          //mediaUrl="";   
        }
    }
 }
@@ -98,7 +98,8 @@ client.messages
       .create({
          from: sendFrom,
          body:  teneoResponse.output.text,
-         to: triggerFrom
+         to: triggerFrom,
+         mediaUrL: [mediaUrl]
        })
       .then(message => console.log(message.sid));
 }
