@@ -98,8 +98,7 @@ client.messages
       .create({
          from: sendFrom,
          body:  teneoResponse.output.text,
-         to: triggerFrom,
-         mediaUrl:  mediaUrl
+         to: triggerFrom
        })
       .then(message => console.log(message.sid));
 }
@@ -500,8 +499,8 @@ const sessionHandler = this.SessionHandler();
                        teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
                 console.log("session ID retrieved4: " + teneoSessionId);
             }
-                res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
-                //res.writeHead(200,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
+                //res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
+                res.writeHead(301,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
                 res.end();  
             }
         }
