@@ -501,7 +501,8 @@ const sessionHandler = this.SessionHandler();
                 console.log("session ID retrieved4: " + teneoSessionId);
             }
                 //res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
-                res.writeHead(301,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
+                //res.writeHead(302,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
+                res.writeHead(302,  {Location: 'https://web.whatsapp.com'});
                 res.end();  
             }
         }
