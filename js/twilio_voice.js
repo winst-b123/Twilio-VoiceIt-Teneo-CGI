@@ -97,7 +97,7 @@ if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
 client.messages
       .create({
          from: sendFrom,
-         body:  teneoResponse.output.text + mediaUrl,
+         body:  teneoResponse.output.text,
          to: triggerFrom,
          mediaUrL: [mediaUrl]
        })
