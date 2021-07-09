@@ -502,7 +502,12 @@ const sessionHandler = this.SessionHandler();
             }
                 //res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
                 //res.writeHead(302,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
-                res.writeHead(302,  {Location: 'https://web.whatsapp.com'});
+                 if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+                    res.writeHead(302,  {Location: 'https://web.whatsapp.com'});
+                 }
+                else {
+                    res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
+                }
                 res.end();  
             }
         }
