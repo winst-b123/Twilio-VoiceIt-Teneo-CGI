@@ -282,7 +282,7 @@ const sessionHandler = this.SessionHandler();
                 teneoSessionId = teneoResponse.sessionId;
                 
                 const hintMode = "";
-                var hintText="";
+                var hintText;
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
                     if(Object.keys(teneoResponse.output.parameters).includes("twilioAction")) {
