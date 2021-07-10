@@ -280,11 +280,20 @@ const sessionHandler = this.SessionHandler();
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
                 teneoSessionId = teneoResponse.sessionId;
-
+                
+                const hintMode = "";
+                var hintText="";
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
                     if(Object.keys(teneoResponse.output.parameters).includes("twilioAction")) {
                         twilioAction = teneoResponse.output.parameters["twilioAction"];
+                    }
+                    if(Object.keys(teneoResponse.output.parameters).includes("twilio_speechModel")) {
+                        hintMode = teneoResponse.output.parameters["twilio_speechModel"];
+                        if(hintMode=="numbers_and_commands") {
+                            hintText="A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99";
+                            console.log("hints on");
+                        }
                     }
                 }
                
@@ -307,7 +316,8 @@ const sessionHandler = this.SessionHandler();
                             language: twilioLanguage,
                             timeout: 4,
                             speechModel: "phone_call",
-                            speechTimeout: "auto"
+                            speechTimeout: "auto",
+                            hints: hintText
                         }).say({
                             voice: twilioVoiceName,
                             language: twilioLanguage
