@@ -281,7 +281,7 @@ const sessionHandler = this.SessionHandler();
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
                 teneoSessionId = teneoResponse.sessionId;
                 
-                const hintMode = "";
+                var hintMode = "";
                 var hintText;
                 // Detect if Teneo solution have provided a Twilio action as output parameter
                 if(Object.keys(teneoResponse.output.parameters).length !== 0) {
