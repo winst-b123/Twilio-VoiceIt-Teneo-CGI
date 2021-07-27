@@ -416,8 +416,8 @@ const sessionHandler = this.SessionHandler();
             
             // check if we have stored an engine sessionid for this caller
             if(teneoSessionId=="") {
-             teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
-            console.log("session ID retrieved2: " + teneoSessionId);
+             //teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
+            //console.log("session ID retrieved2: " + teneoSessionId);
             }
             var userInput = req.query["userInput"];   
             if(userInput===undefined || userInput===null || userInput=="") {
@@ -485,7 +485,7 @@ const sessionHandler = this.SessionHandler();
                    // console.log(JSON.stringify(call)); 
                    sessionHandler.setSession(phone, teneoSessionId)   
                 );
-                teneoSessionId = sessionHandler.getSession(phone);
+                //teneoSessionId = sessionHandler.getSession(phone);
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();  
             }
