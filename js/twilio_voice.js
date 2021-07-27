@@ -162,7 +162,7 @@ const sessionHandler = this.SessionHandler();
                 console.log("contractNum: " + contractNum);
             var arrears= req.query["arrears"];
                 if(arrears===undefined) {
-                    arrears = "0.00";
+                    arrears = "";
                 }
                 console.log("arrears: " + arrears);
             var fname= req.query["fname"];
@@ -446,7 +446,7 @@ const sessionHandler = this.SessionHandler();
                 console.log("contractNum: " + contractNum);
             var arrears= req.query["arrears"];
                 if(arrears===undefined) {
-                    arrears = "0.00";
+                    arrears = "";
                 }
                 console.log("arrears: " + arrears);
             var fname= req.query["fname"];
