@@ -38,8 +38,8 @@ router.all(postPath.default, twilio_voice_instance.handleInboundCalls());
 
 router.all(postPath.outbound_call, twilio_voice_instance.handleOutboundCalls());
 // twilio message comes in
-app.post("/outbound", twilio_voice_instance.handleOutboundCalls());
-app.post("/", twilio_voice_instance.handleInboundCalls());
+app.post("/outbound", twilio_voice_instance.handleOutboundCalls(req,res));
+app.post("/", twilio_voice_instance.handleInboundCalls(req,res));
 app.use(bodyParser.urlencoded({ extended: true }));
 // start the express application
 http.createServer(app).listen(port, () => {
