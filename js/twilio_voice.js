@@ -145,7 +145,7 @@ const sessionHandler = this.SessionHandler();
             var daysSince;
             var email;
             
-            if(req.body!=undefined) {
+            if(req.body!=undefined && req.body.phone!=undefined) {
                 userInput = req.body.userInput;
                 phone = req.body.phone;
                 passedSessionId=req.body.session;
@@ -453,7 +453,7 @@ const sessionHandler = this.SessionHandler();
             var daysSince;
             var email;
             
-            if(req.body!=undefined) {
+            if(req.body!=undefined && req.body.phone!=undefined) {
                 userInput = req.body.userInput;
                 phone = req.body.phone;
                 passedSessionId=req.body.session;
