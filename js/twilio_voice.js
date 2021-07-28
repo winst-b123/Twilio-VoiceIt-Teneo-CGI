@@ -92,8 +92,8 @@ if(Object.keys(teneoResponse.output.parameters).length !== 0) {
 }
 if(triggerFrom!==undefined && triggerFrom!==null && triggerFrom!="") {
     console.log('trying to send outbound message: ${teneoResponse.output.text}');
-    console.log(`to: ${triggerFrom}`)
-    console.log(`from: ${sendFrom}`)
+    //console.log(`to: ${triggerFrom}`)
+    //console.log(`from: ${sendFrom}`)
 client.messages
       .create({
          from: sendFrom,
@@ -104,7 +104,7 @@ client.messages
       .then(message => console.log(message.sid));
 }
  else {
-     console.log('replying to inbound message: ${teneoResponse.output.text}');
+     //console.log('replying to inbound message: ${teneoResponse.output.text}');
   const message = teneoResponse;
   const twiml = new MessagingResponse();
 
@@ -112,7 +112,7 @@ client.messages
 
   res.writeHead(200, { 'Content-Type': 'text/xml' });
   res.end(twiml.toString());
-   console.log(`twim1: ${twiml.toString()}`);
+   //console.log(`twim1: ${twiml.toString()}`);
  }
 }
 
@@ -141,10 +141,10 @@ const sessionHandler = this.SessionHandler();
                 console.log("userInput: " + userInput);  
                 if(userInput!="hi") {
                 var post = qs.parse(body);
-                console.log("post: " );
-                console.log(_stringify(post));
+                //console.log("post: " );
+                //console.log(_stringify(post));
                   var from = post.From;
-                 console.log(`from: ${from}`);
+                 //console.log(`from: ${from}`);
                   // Detect if userinput exists
                 if (post.CallStatus === 'in-progress' && post.SpeechResult) {
                     userInput = post.SpeechResult;
@@ -184,7 +184,7 @@ const sessionHandler = this.SessionHandler();
                 if(email===undefined) {
                     email = "";
                 }
-                console.log("email: " + email);  
+                //console.log("email: " + email);  
               const passedSessionId=req.query["session"];  
             console.log("Passed session: " + passedSessionId);
             if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
@@ -241,7 +241,7 @@ const sessionHandler = this.SessionHandler();
                   phone = post.From;  
                 } 
                 }
-                console.log("Phone: " + phone);
+                //console.log("Phone: " + phone);
 
                 // check if we have stored an engine sessionid for this caller
               
@@ -274,7 +274,7 @@ const sessionHandler = this.SessionHandler();
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
                 }
 
-                console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
+                //console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
                 
                 
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
@@ -401,7 +401,7 @@ const sessionHandler = this.SessionHandler();
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
-            console.log("Phone: " + phone);
+            //console.log("Phone: " + phone);
             
              const passedSessionId=req.query["session"];  
             console.log("Passed session: " + passedSessionId);
@@ -425,7 +425,7 @@ const sessionHandler = this.SessionHandler();
             }
              console.log("userInput: " + userInput);
             const url = "https://" + req.headers["host"] + "/";
-            console.log("URL: " + url);
+            //console.log("URL: " + url);
             
                     var parameters = {};
                     parameters["phone"] = phone;
@@ -468,7 +468,7 @@ const sessionHandler = this.SessionHandler();
                 if(email===undefined) {
                     email = "";
                 }
-                console.log("email: " + email);
+               // console.log("email: " + email);
             
             if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
@@ -493,7 +493,7 @@ const sessionHandler = this.SessionHandler();
             
                     var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "arrearsContractNum":contractNum
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
-                    console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
+                    //console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
                      teneoSessionId = teneoResponse.sessionId;
