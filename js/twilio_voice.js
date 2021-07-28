@@ -149,7 +149,7 @@ const sessionHandler = this.SessionHandler();
                 console.log("body: " );
             console.log(_stringify(body));
             
-            if(req.body!=undefined && req.body.phone!=undefined && req.body.mode!=undefined) {
+            /*if(req.body!=undefined && req.body.phone!=undefined && req.body.mode!=undefined) {
                 userInput = req.body.userInput;
                 phone = req.body.phone;
                 passedSessionId=req.body.session;
@@ -161,7 +161,7 @@ const sessionHandler = this.SessionHandler();
                 daysSince=req.body.daysSince;
                 email=req.body.email;
             }
-            else {
+            else {*/
             phone = req.query["phone"];     
             passedSessionId=req.query["session"];  
               
@@ -176,7 +176,7 @@ const sessionHandler = this.SessionHandler();
             email = req.query["email"];
                 
                 
-             }
+            // }
                
                 if(userInput===undefined) {
                     userInput = "";
