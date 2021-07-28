@@ -26,8 +26,8 @@ const port = process.env.PORT || 3000;
 
 // initialize an Express application
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(express.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 const router = express.Router();
 
 // Tell express to use this router with /api before.
