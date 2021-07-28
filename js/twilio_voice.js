@@ -197,11 +197,7 @@ const sessionHandler = this.SessionHandler();
                         confidence = post.Confidence;
                     }
                 }   
-                  if(phone==undefined && from==undefined) {
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end();
-                }
-               else{
+                 
               //console.log("phone: " + phone);  
                 if(contractNum===undefined) {
                     contractNum = "";
@@ -435,7 +431,7 @@ const sessionHandler = this.SessionHandler();
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
                 }
-               }
+               
                 
             });
         }
