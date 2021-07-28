@@ -142,8 +142,8 @@ const sessionHandler = this.SessionHandler();
                 console.log("userInput: " + userInput);  
                 if(userInput!="hi") {
                 var post = qs.parse(body);
-                //console.log("post: " );
-                //console.log(_stringify(post));
+                console.log("post: " );
+                console.log(_stringify(post));
                   var from = post.From;
                  //console.log(`from: ${from}`);
                   // Detect if userinput exists
