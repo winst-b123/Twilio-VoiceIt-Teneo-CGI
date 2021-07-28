@@ -37,6 +37,9 @@ const twilio_voice_instance = new twilio_voice();
 router.all(postPath.default, twilio_voice_instance.handleInboundCalls());
 
 router.all(postPath.outbound_call, twilio_voice_instance.handleOutboundCalls());
+// twilio message comes in
+app.post("/outbound", twilio_voice_instance.handleOutboundCalls());
+app.post("/", twilio_voice_instance.handleInboundCalls());
 
 // start the express application
 http.createServer(app).listen(port, () => {
