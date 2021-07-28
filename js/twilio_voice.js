@@ -492,7 +492,7 @@ const sessionHandler = this.SessionHandler();
             var parameters = {};
             parameters["phone"] = phone;
             const url = "https://" + req.headers["host"] + "/";
-            console.log("URL: " + url);
+            //console.log("URL: " + url);
             if(userInput===undefined || userInput===null || userInput=="") {
               userInput="Hi";
             }
@@ -546,7 +546,7 @@ const sessionHandler = this.SessionHandler();
                 //const callSid = post.CallSid;
                 const url = "https://" + req.headers["host"] + "/?phone="+phone+"&session="+teneoSessionId+"&contractNum="+contractNum+"&email="+email+"&userInput="+userInput+"&arrears="+arrears+"&fname="+fname+"&numMissed="+numMissed+"&daysSince="+daysSince;
               
-                console.log("URL: " + url);
+                //console.log("URL: " + url);
                 client.calls
                 .create({
                     url: url,
@@ -565,7 +565,7 @@ const sessionHandler = this.SessionHandler();
             
                     var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "arrearsContractNum":contractNum
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
-                    console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
+                    //console.log("Content to Teneo: " + JSON.stringify(contentToTeneo).toString());
                     // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
                      teneoSessionId = teneoResponse.sessionId;
