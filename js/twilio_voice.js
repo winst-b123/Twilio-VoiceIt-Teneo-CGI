@@ -301,6 +301,7 @@ const sessionHandler = this.SessionHandler();
                 // Detect digit input from the user, add additional if statement to capture timeout
                 if(post.Digits !== "timeout" && post.Digits) {
                     parameters["keypress"] = post.Digits;
+                    console.log("POST DIGITS: " + post.Digits);
                 }
 
                 // Detect if recording exists from input
