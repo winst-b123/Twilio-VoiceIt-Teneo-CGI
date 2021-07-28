@@ -144,12 +144,12 @@ const sessionHandler = this.SessionHandler();
             var daysSince;
             var email;
                 
-                console.log("req.body: " );
+             /*   console.log("req.body: " );
             console.log(_stringify(req.body));
                 console.log("body: " );
-            console.log(_stringify(body));
+            console.log(_stringify(body));*/
             
-            /*if(req.body!=undefined && req.body.phone!=undefined && req.body.mode!=undefined) {
+            if(req.body!=undefined && req.body.phone!=undefined && req.body.mode!=undefined) {
                 userInput = req.body.userInput;
                 phone = req.body.phone;
                 passedSessionId=req.body.session;
@@ -161,7 +161,7 @@ const sessionHandler = this.SessionHandler();
                 daysSince=req.body.daysSince;
                 email=req.body.email;
             }
-            else {*/
+            else {
             phone = req.query["phone"];     
             passedSessionId=req.query["session"];  
               
@@ -176,16 +176,20 @@ const sessionHandler = this.SessionHandler();
             email = req.query["email"];
                 
                 
-            // }
-               
+             }
+                if(phone==undefined) {
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end();
+                }
+               else{
                 if(userInput===undefined) {
                     userInput = "";
                 }
                 console.log("userInput: " + userInput);  
                 if(userInput!="hi") {
                 var post = qs.parse(body);
-                console.log("post: " );
-                console.log(_stringify(post));
+                //console.log("post: " );
+                //console.log(_stringify(post));
                   var from = post.From;
                  //console.log(`from: ${from}`);
                   // Detect if userinput exists
@@ -198,7 +202,7 @@ const sessionHandler = this.SessionHandler();
                     }
                 }   
          
-              console.log("phone: " + phone);  
+              //console.log("phone: " + phone);  
                 if(contractNum===undefined) {
                     contractNum = "";
                 }
@@ -430,6 +434,8 @@ const sessionHandler = this.SessionHandler();
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
                 }
+               }
+                
             });
         }
     }
@@ -440,10 +446,10 @@ const sessionHandler = this.SessionHandler();
              var TWILIO_MODE = "ivr";   
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
-            console.log(`REQUEST (flattened):`);
-            console.log(_stringify(req));            
-            console.log("body: " );
-            console.log(_stringify(req.body));
+            //console.log(`REQUEST (flattened):`);
+            //console.log(_stringify(req));            
+            //console.log("body: " );
+            //console.log(_stringify(req.body));
             
             var phone = "";
             
