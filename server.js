@@ -16,7 +16,7 @@ const http = require('http');
 const path = require('path');
 const express = require('express');
 const twilio_voice = require(path.resolve('js', 'twilio_voice.js'));
-
+const bodyParser = require('body-parser');
 /**
  * Initialise variables using environment parameters
  */
@@ -40,7 +40,7 @@ router.all(postPath.outbound_call, twilio_voice_instance.handleOutboundCalls());
 // twilio message comes in
 app.post("/outbound", twilio_voice_instance.handleOutboundCalls());
 app.post("/", twilio_voice_instance.handleInboundCalls());
-
+app.use(bodyParser.urlencoded({ extended: false }));
 // start the express application
 http.createServer(app).listen(port, () => {
   console.log(`Listening on port: ${port}`);
