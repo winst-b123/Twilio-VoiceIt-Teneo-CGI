@@ -125,7 +125,7 @@ const sessionHandler = this.SessionHandler();
         
 
         return async (req, res) => {
-            var teneoSessionId;
+            
             let body = '';
 
             req.on('data', function (data) {
@@ -133,9 +133,47 @@ const sessionHandler = this.SessionHandler();
             });
 
             req.on('end', async function () {
-                // parse the body
-                var phone = req.query["phone"];
-                 var userInput = req.query["userInput"];
+            var phone = "";
+            var teneoSessionId;
+            var userInput;
+            var passedSessionId;
+            var mode;
+            var contractNum;
+            var arrears;
+            var fname;
+            var numMissed;
+            var daysSince;
+            var email;
+            
+            if(body!=undefined) {
+                userInput = req.body.userInput;
+                phone = req.body.phone;
+                passedSessionId=req.body.session;
+                mode=req.body.mode;
+                contractNum =req.body.contractNum;
+                arrears=req.body.arrears;
+                fname=req.body.fname;
+                numMissed==req.body.numMissed;
+                daysSince=req.body.daysSince;
+                email=req.body.email;
+            }
+            else {
+            phone = req.query["phone"];     
+            passedSessionId=req.query["session"];  
+              
+            userInput = req.query["userInput"];   
+            mode = req.query["mode"];
+     
+            contractNum = req.query["contractNum"];  
+            arrears= req.query["arrears"];    
+            fname= req.query["fname"];
+            numMissed = req.query["numMissed"];    
+            daysSince = req.query["daysSince"];     
+            email = req.query["email"];
+                
+                
+             }
+               
                 if(userInput===undefined) {
                     userInput = "";
                 }
@@ -156,37 +194,37 @@ const sessionHandler = this.SessionHandler();
                     }
                 }   
          
-          var contractNum = req.query["contractNum"];
+         
                 if(contractNum===undefined) {
                     contractNum = "";
                 }
                 console.log("contractNum: " + contractNum);
-            var arrears= req.query["arrears"];
+         
                 if(arrears===undefined) {
                     arrears = "";
                 }
                 console.log("arrears: " + arrears);
-            var fname= req.query["fname"];
+          
                 if(fname===undefined) {
                     fname = "";
                 }
                 console.log("fname: " + fname);
-            var numMissed = req.query["numMissed"];
+            
                 if(numMissed===undefined) {
                     numMissed = "";
                 }
                 console.log("numMissed: " + numMissed);
-             var daysSince = req.query["daysSince"];
+             
                 if(daysSince===undefined) {
                     daysSince = "";
                 }
                 console.log("daysSince: " + daysSince);
-             var email = req.query["email"];
+            
                 if(email===undefined) {
                     email = "";
                 }
                 //console.log("email: " + email);  
-              const passedSessionId=req.query["session"];  
+              
             console.log("Passed session: " + passedSessionId);
             if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
                 teneoSessionId=""
@@ -396,14 +434,15 @@ const sessionHandler = this.SessionHandler();
   const sessionHandler = this.SessionHandler();
         return async (req, res) => {
              var TWILIO_MODE = "ivr";   
-            var phone = "";
-            var teneoSessionId;
+            const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
             console.log(`REQUEST (flattened):`);
             console.log(_stringify(req));            
             console.log("body: " );
             console.log(_stringify(req.body));
-            const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+            
+            var phone = "";
+            var teneoSessionId;
             var userInput;
             var passedSessionId;
             var mode;
@@ -535,7 +574,7 @@ const sessionHandler = this.SessionHandler();
                 sendTwilioMessage(teneoResponse, res, phone,TWILIO_OUTBOUND_NUMBER);
                        teneoSessionId = sessionHandler.getSession(phone);
                    console.log("session ID retrieved4: " + teneoSessionId);
-
+                    res.writeHead(200, {'Content-Type': 'text/xml'});
                }
             else {
                 sessionHandler.setSession("whatsapp:"+phone, teneoSessionId);
@@ -543,15 +582,16 @@ const sessionHandler = this.SessionHandler();
                 sendTwilioMessage(teneoResponse, res, "whatsapp:"+phone, TWILIO_OUTBOUND_NUMBER_WA);
                        teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
                 console.log("session ID retrieved4: " + teneoSessionId);
-            }
-                //res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
-                //res.writeHead(302,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
-                 if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+                if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
                     res.writeHead(302,  {Location: 'https://web.whatsapp.com'});
                  }
                 else {
                     res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
                 }
+            }
+                //res.writeHead(200, {'Content-Type': 'text/xml', Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
+                //res.writeHead(302,  {Location: 'https://api.whatsapp.com/send?phone=+14155238886'});
+
                 res.end();  
             }
         }
