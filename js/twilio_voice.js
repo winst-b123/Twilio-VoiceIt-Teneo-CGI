@@ -40,7 +40,7 @@ let twilioAction = postPath.default;
  */
 var teneoResponse = null;
 var confidence = "";
-var teneoSessionId="";
+var teneoSessionId;
 var flow = "";
 
 
