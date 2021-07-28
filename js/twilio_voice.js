@@ -398,6 +398,8 @@ const sessionHandler = this.SessionHandler();
             var phone = "";
             
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
+            console.log(`REQUEST (flattened):`);
+            console.log(_stringify(req));
             let body = '';
 
             req.on('data', function (data) {
