@@ -125,7 +125,7 @@ const sessionHandler = this.SessionHandler();
         
 
         return async (req, res) => {
-            
+            console.log("INBOUND START " );
             let body = '';
 
             req.on('data', function (data) {
