@@ -20,8 +20,7 @@ const {
 } = process.env;
 
 const postPath = {
-    default: '/',
-  outbound: "/outbound"
+    default: '/'
 };
 
 const teneoApi = TIE.init(TENEO_ENGINE_URL);
