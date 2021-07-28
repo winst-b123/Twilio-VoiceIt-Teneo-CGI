@@ -27,7 +27,7 @@ const port = process.env.PORT || 3000;
 // initialize an Express application
 const app = express();
 const router = express.Router();
-
+app.use(bodyParser.urlencoded({ extended: true }));
 // Tell express to use this router with /api before.
 app.use(postPath.default, router);
 app.use(postPath.outbound_call, router);
@@ -41,7 +41,7 @@ router.all(postPath.outbound_call, twilio_voice_instance.handleOutboundCalls());
 // twilio message comes in
 app.post("/outbound", twilio_voice_instance.handleOutboundCalls());
 app.post("/", twilio_voice_instance.handleInboundCalls());
-app.use(bodyParser.urlencoded({ extended: true }));
+
 // start the express application
 http.createServer(app).listen(port, () => {
   console.log(`Listening on port: ${port}`);
