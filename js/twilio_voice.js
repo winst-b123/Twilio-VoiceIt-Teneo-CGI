@@ -177,11 +177,7 @@ const sessionHandler = this.SessionHandler();
                 
                 
              //}
-                if(phone==undefined) {
-                res.writeHead(200, {'Content-Type': 'text/xml'});
-                res.end();
-                }
-               else{
+              
                 if(userInput===undefined) {
                     userInput = "";
                 }
@@ -201,7 +197,11 @@ const sessionHandler = this.SessionHandler();
                         confidence = post.Confidence;
                     }
                 }   
-         
+                  if(phone==undefined && from==undefined) {
+                res.writeHead(200, {'Content-Type': 'text/xml'});
+                res.end();
+                }
+               else{
               //console.log("phone: " + phone);  
                 if(contractNum===undefined) {
                     contractNum = "";
