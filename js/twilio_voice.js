@@ -194,7 +194,7 @@ const sessionHandler = this.SessionHandler();
                     }
                 }   
          
-         
+              console.log("phone: " + phone);  
                 if(contractNum===undefined) {
                     contractNum = "";
                 }
