@@ -398,6 +398,14 @@ const sessionHandler = this.SessionHandler();
             var phone = "";
             
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
+            let body = '';
+
+            req.on('data', function (data) {
+                body += data;
+            });
+            var post = qs.parse(body);
+                //console.log("post: " );
+                //console.log(_stringify(post));
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
