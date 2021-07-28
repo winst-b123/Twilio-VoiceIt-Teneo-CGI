@@ -144,6 +144,11 @@ const sessionHandler = this.SessionHandler();
             var numMissed;
             var daysSince;
             var email;
+                
+                console.log("req.body: " );
+            console.log(_stringify(req.body));
+                console.log("body: " );
+            console.log(_stringify(body));
             
             if(req.body!=undefined && req.body.phone!=undefined) {
                 userInput = req.body.userInput;
