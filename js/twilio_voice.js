@@ -409,6 +409,8 @@ const sessionHandler = this.SessionHandler();
             var post = qs.parse(body);
             console.log("post: " );
             console.log(_stringify(post));
+            console.log("body: " );
+            console.log(_stringify(req.body));
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
             phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
             //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
