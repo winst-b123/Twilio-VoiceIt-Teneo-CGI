@@ -26,12 +26,14 @@ const port = process.env.PORT || 3000;
 
 // initialize an Express application
 const app = express();
-const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+const router = express.Router();
+
 // Tell express to use this router with /api before.
 app.use(postPath.default, router);
 app.use(postPath.outbound_call, router);
-app.use(express.json());
+
 // twilio message comes in
 const twilio_voice_instance = new twilio_voice();
 
