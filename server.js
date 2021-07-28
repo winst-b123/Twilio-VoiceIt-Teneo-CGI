@@ -40,7 +40,7 @@ router.all(postPath.outbound_call, twilio_voice_instance.handleOutboundCalls());
 // twilio message comes in
 app.post("/outbound", twilio_voice_instance.handleOutboundCalls());
 app.post("/", twilio_voice_instance.handleInboundCalls());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 // start the express application
 http.createServer(app).listen(port, () => {
   console.log(`Listening on port: ${port}`);
