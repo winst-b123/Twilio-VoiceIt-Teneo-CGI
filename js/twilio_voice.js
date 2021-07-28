@@ -149,7 +149,7 @@ const sessionHandler = this.SessionHandler();
                 console.log("body: " );
             console.log(_stringify(body));
             
-            if(req.body!=undefined && req.body.phone!=undefined) {
+            if(req.body!=undefined && req.body.phone!=undefined && req.body.mode!=undefined) {
                 userInput = req.body.userInput;
                 phone = req.body.phone;
                 passedSessionId=req.body.session;
