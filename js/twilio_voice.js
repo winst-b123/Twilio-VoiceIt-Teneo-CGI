@@ -44,7 +44,7 @@ var confidence = "";
 
 var flow = "";
 
-var teneoSessionId;
+
 
 
 
@@ -125,7 +125,7 @@ const sessionHandler = this.SessionHandler();
         
 
         return async (req, res) => {
-
+            var teneoSessionId;
             let body = '';
 
             req.on('data', function (data) {
@@ -397,52 +397,88 @@ const sessionHandler = this.SessionHandler();
         return async (req, res) => {
              var TWILIO_MODE = "ivr";   
             var phone = "";
-            
+            var teneoSessionId;
             console.log("IN HANDLE OUTBOUND !" + TWILIO_MODE);
             console.log(`REQUEST (flattened):`);
-            console.log(_stringify(req));
-            let body = '';
-
-            req.on('data', function (data) {
-                body += data;
-            });
-            var post = qs.parse(body);
-            console.log("post: " );
-            console.log(_stringify(post));
+            console.log(_stringify(req));            
             console.log("body: " );
             console.log(_stringify(req.body));
             const client = require('twilio')(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
-            phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');  
-            //phone = "+" + req.url.replace("/outbound_call", "").replace(/[^0-9]/g, '');
-            //console.log("Phone: " + phone);
+            var userInput;
+            var passedSessionId;
+            var mode;
+            var contractNum;
+            var arrears;
+            var fname;
+            var numMissed;
+            var daysSince;
+            var email;
             
-             const passedSessionId=req.query["session"];  
-            console.log("Passed session: " + passedSessionId);
-            if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
-                teneoSessionId=""
+            if(body!=undefined) {
+                userInput = req.body.userInput;
+                phone = req.body.phone;
+                passedSessionId=req.body.session;
+                mode=req.body.mode;
+                contractNum =req.body.contractNum;
+                arrears=req.body.arrears;
+                fname=req.body.fname;
+                numMissed==req.body.numMissed;
+                daysSince=req.body.daysSince;
+                email=req.body.email;
             }
             else {
-                teneoSessionId=passedSessionId;   
-                 console.log("session: " + teneoSessionId);
-                sessionHandler.setSession(phone, teneoSessionId);
-            }
-            
-            // check if we have stored an engine sessionid for this caller
-            if(teneoSessionId=="") {
-             //teneoSessionId = sessionHandler.getSession("whatsapp:"+phone);
-            //console.log("session ID retrieved2: " + teneoSessionId);
-            }
-            var userInput = req.query["userInput"];   
+            phone = "+" + req.query["phone"].replace(/[^0-9]/g, '');           
+            passedSessionId=req.query["session"];  
+              
+            userInput = req.query["userInput"];   
+            mode = req.query["mode"];
+     
+            contractNum = req.query["contractNum"];  
+            arrears= req.query["arrears"];    
+            fname= req.query["fname"];
+            numMissed = req.query["numMissed"];    
+            daysSince = req.query["daysSince"];     
+            email = req.query["email"];
+                
+                
+             }
+            console.log("Passed session: " + passedSessionId);
+            var parameters = {};
+            parameters["phone"] = phone;
+            const url = "https://" + req.headers["host"] + "/";
+            //console.log("URL: " + url);
             if(userInput===undefined || userInput===null || userInput=="") {
               userInput="Hi";
             }
              console.log("userInput: " + userInput);
-            const url = "https://" + req.headers["host"] + "/";
-            //console.log("URL: " + url);
+            if(contractNum===undefined) {
+                    contractNum = "";
+                }
+                console.log("contractNum: " + contractNum);
+                if(arrears===undefined) {
+                    arrears = "";
+                }
+                console.log("arrears: " + arrears);
+                if(fname===undefined) {
+                    fname = "";
+                }
+                console.log("fname: " + fname);
             
-                    var parameters = {};
-                    parameters["phone"] = phone;
-            var mode = req.query["mode"];
+                if(numMissed===undefined) {
+                    numMissed = "";
+                }
+                console.log("numMissed: " + numMissed);
+              
+                if(daysSince===undefined) {
+                    daysSince = "";
+                }
+                console.log("daysSince: " + daysSince);
+             
+                if(email===undefined) {
+                    email = "";
+                }
+               // console.log("email: " + email);
+            
                 if(mode!==undefined) {
                     TWILIO_MODE = mode;
                     var channel = TWILIO_MODE;
@@ -451,38 +487,15 @@ const sessionHandler = this.SessionHandler();
                     }
 
                 }
-                console.log("mode: " + TWILIO_MODE);         
-            var contractNum = req.query["contractNum"];
-                if(contractNum===undefined) {
-                    contractNum = "";
-                }
-                console.log("contractNum: " + contractNum);
-            var arrears= req.query["arrears"];
-                if(arrears===undefined) {
-                    arrears = "";
-                }
-                console.log("arrears: " + arrears);
-            var fname= req.query["fname"];
-                if(fname===undefined) {
-                    fname = "";
-                }
-                console.log("fname: " + fname);
-            var numMissed = req.query["numMissed"];
-                if(numMissed===undefined) {
-                    numMissed = "";
-                }
-                console.log("numMissed: " + numMissed);
-             var daysSince = req.query["daysSince"];
-                if(daysSince===undefined) {
-                    daysSince = "";
-                }
-                console.log("daysSince: " + daysSince);
-             var email = req.query["email"];
-                if(email===undefined) {
-                    email = "";
-                }
-               // console.log("email: " + email);
-            
+                console.log("mode: " + TWILIO_MODE);    
+            if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
+                teneoSessionId=""
+            }
+            else {
+                teneoSessionId=passedSessionId;   
+                 console.log("session: " + teneoSessionId);
+                sessionHandler.setSession(phone, teneoSessionId);
+            }
             if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
                 const url = "https://" + req.headers["host"] + "/?phone="+phone+"&session="+teneoSessionId+"&contractNum="+contractNum+"&email="+email+"&userInput="+userInput+"&arrears="+arrears+"&fname="+fname+"&numMissed="+numMissed+"&daysSince="+daysSince;
