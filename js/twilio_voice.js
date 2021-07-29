@@ -375,7 +375,7 @@ const sessionHandler = this.SessionHandler();
                             action: postPath.default,
                             actionOnEmptyResult: false,
                             language: twilioLanguage,
-                            timeout: 4,
+                            timeout: 5,
                             speechModel: "phone_call",
                             speechTimeout: "auto",
                             hints: hintText
