@@ -288,10 +288,15 @@ const sessionHandler = this.SessionHandler();
 
                 // check if we have stored an engine sessionid for this caller
                if(userInput==undefined !! userInput=="") {
+                    console.log(`REQUEST (flattened):`);
+                    console.log(_stringify(req));            
+                    //console.log("body: " );
+                    //console.log(_stringify(req.body));
                    res.writeHead(200, {'Content-Type': 'text/xml'});
                     res.end();
+                   return;
                }
-                else {
+                
                 teneoSessionId = sessionHandler.getSession(phone);
                                 
                 console.log("session ID retrieved: " + teneoSessionId);
@@ -435,9 +440,10 @@ const sessionHandler = this.SessionHandler();
                 res.writeHead(200, {'Content-Type': 'text/xml'});
                 res.end();
                 }
-               } 
+                
                 
             });
+                
         }
     }
 
