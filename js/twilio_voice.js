@@ -361,10 +361,10 @@ const sessionHandler = this.SessionHandler();
                 console.log("Output response 3: " + teneoResponse.output.text);
                  if(TWILIO_MODE=="ivr") {
                     sessionHandler.setSession(phone, teneoSessionId);
-                if(twilioAction === postPath.default) {
+                if(twilioAction === postPath.default || twilioAction==undefined || twilioAction=="") {
                     twilioAction = twilioActions.gather_default;
                 }
-
+                console.log("twilioAction: " + twilioAction);
                 switch (twilioAction) {
 
                     // Twilio action to handle voice inputs by end-user, speaking to the end user and then capturing the voice subsequently.
