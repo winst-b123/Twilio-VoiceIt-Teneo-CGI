@@ -40,7 +40,7 @@ let twilioAction = postPath.default;
  */
 var teneoResponse = null;
 var confidence = "";
-var teneoSessionId;
+
 var flow = "";
 
 
@@ -133,7 +133,7 @@ const sessionHandler = this.SessionHandler();
 
             req.on('end', async function () {
             var phone = "";
-            
+            var teneoSessionId;
             var userInput;
             var passedSessionId;
             var mode;
@@ -449,7 +449,7 @@ const sessionHandler = this.SessionHandler();
             //console.log(_stringify(req.body));
             
             var phone = "";
-            
+            var teneoSessionId;
             var userInput;
             var passedSessionId;
             var mode;
@@ -617,7 +617,11 @@ SessionHandler() {
                 }
             },
             setSession: (userId, sessionId) => {
-                sessionMap.set(userId, sessionId)
+                sessionMap.delete(userId);
+                sessionMap.set(userId, sessionId);
+            },
+            clearSession: (userId) => {
+                 sessionMap.delete(userId);
             }
         };
     }
