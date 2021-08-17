@@ -360,7 +360,7 @@ const sessionHandler = this.SessionHandler();
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
                     teneoResponse = await teneoApi.sendInput(teneoSessionId, contentToTeneo);
                 teneoSessionId = teneoResponse.sessionId;
-                
+                 console.log("session after call: " + teneoSessionId);
                 var hintMode = "";
                 var hintText;
                 // Detect if Teneo solution have provided a Twilio action as output parameter
