@@ -128,6 +128,7 @@ const sessionHandler = this.SessionHandler();
             let body = '';
 
             req.on('data', function (data) {
+                console.log(data);
                 body += data;
             });
 
