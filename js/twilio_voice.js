@@ -155,12 +155,13 @@ const sessionHandler = this.SessionHandler();
             var post = qs.parse(body);
             console.log("post: " );
             console.log(post);
-            if(body!==undefined && post.channel!==undefined) {
-                userInput = post.text;
-                channelParam = post.channel;
-                passedSessionId=post.parameters["session"];
-                lat= post.parameters["latitude"];
-                long=post.parameters["longitude"];
+            if(body!==undefined && body!="" && body!="{}") {
+                userInput = body["text"];
+                channelParam = body["channel"];
+                var params = body["parameters"];
+                passedSessionId=params["session"];
+                lat= params["latitude"];
+                long=params["longitude"];
                 console.log("GEO LOC DETECTED " );
                 console.log(lat );
                  console.log(long );
