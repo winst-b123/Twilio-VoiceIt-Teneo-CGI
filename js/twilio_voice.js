@@ -153,7 +153,7 @@ const sessionHandler = this.SessionHandler();
             console.log("body: " );
             console.log(_stringify(body));
             
-            if(body!=undefined && body.channel!=undefined && body.channel=='geoloc') {
+            if(body!==undefined && body.channel!==undefined) {
                 userInput = body.text;
                 channelParam = body.channel;
                 passedSessionId=body.parameters["session"];
