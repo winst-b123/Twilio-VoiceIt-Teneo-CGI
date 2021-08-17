@@ -184,7 +184,7 @@ const sessionHandler = this.SessionHandler();
                 if(userInput===undefined) {
                     userInput = "";
                 }
-                if(userInput==") {
+                if(userInput=="") {
                     userInput="coordinates";   
                 }
                 console.log("userInput: " + userInput);  
