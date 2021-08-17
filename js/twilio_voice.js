@@ -159,9 +159,11 @@ const sessionHandler = this.SessionHandler();
                 userInput = parsed.text;
                 channelParam = parsed.channel;
                 var params = parsed.parameters;
-                passedSessionId=params["session"];
-                lat= params["latitude"];
-                long=params["longitude"];
+                if(params!==undefined) {
+                  passedSessionId=params["session"];
+                  lat= params["latitude"];
+                  long=params["longitude"];
+                }
                 console.log("GEO LOC DETECTED " );
                 console.log(lat );
                  console.log(long );
