@@ -146,7 +146,7 @@ const sessionHandler = this.SessionHandler();
             var channelParam;
                 
              /*   console.log("req.body: " );*/
-            console.log(_stringify(req));
+            console.log(_stringify(req.body));
              /*   console.log("body: " );
             console.log(_stringify(body));*/
             
