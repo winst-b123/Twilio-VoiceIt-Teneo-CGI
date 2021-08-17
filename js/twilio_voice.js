@@ -159,6 +159,9 @@ const sessionHandler = this.SessionHandler();
                 passedSessionId=body.parameters["session"];
                 lat=body.parameters["latitude"];
                 long=body.parameters["longitude"];
+                console.log("GEO LOC DETECTED " );
+                console.log(lat );
+                 console.log(long );
             }
             else {
             phone = req.query["phone"];     
@@ -181,9 +184,7 @@ const sessionHandler = this.SessionHandler();
                 if(userInput===undefined) {
                     userInput = "";
                 }
-                if(userInput=="") {
-                   userInput="Coordinates";   
-                }
+                
                 console.log("userInput: " + userInput);  
                 if(userInput!="hi") {
                 var post = qs.parse(body);
