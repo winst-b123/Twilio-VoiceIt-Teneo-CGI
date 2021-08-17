@@ -143,10 +143,11 @@ const sessionHandler = this.SessionHandler();
             var numMissed;
             var daysSince;
             var email;
+            var channelParam;
                 
-             /*   console.log("req.body: " );
-            console.log(_stringify(req.body));
-                console.log("body: " );
+             /*   console.log("req.body: " );*/
+            console.log(_stringify(req));
+             /*   console.log("body: " );
             console.log(_stringify(body));*/
             
             /*if(req.body!=undefined && req.body.phone!=undefined && req.body.mode!=undefined) {
@@ -164,6 +165,7 @@ const sessionHandler = this.SessionHandler();
             else {*/
             phone = req.query["phone"];     
             passedSessionId=req.query["session"];  
+            channelParam=req.query["channel"];  
               
             userInput = req.query["userInput"];   
             mode = req.query["mode"];
@@ -283,6 +285,9 @@ const sessionHandler = this.SessionHandler();
                 if(post.From.startsWith("whatsapp:")) {
                   phone = post.From;  
                 } 
+                }
+                if(channelParam=="geoloc") {
+                    channel="geoloc";
                 }
                 //console.log("Phone: " + phone);
 
