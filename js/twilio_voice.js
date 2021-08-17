@@ -153,12 +153,12 @@ const sessionHandler = this.SessionHandler();
             console.log("body: " );
             console.log(body);
             var post = qs.parse(body);
-            console.log("post: " );
-            console.log(post);
+
             if(body!==undefined && body!="" && body!="{}") {
-                userInput = post.text;
-                channelParam = post.channel;
-                var params = post.parameters;
+                var parsed = JSON.parse(body);
+                userInput = parsed.text;
+                channelParam = parsed.channel;
+                var params = parsed.parameters;
                 passedSessionId=params["session"];
                 lat= params["latitude"];
                 long=params["longitude"];
