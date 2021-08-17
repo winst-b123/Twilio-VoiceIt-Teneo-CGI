@@ -339,13 +339,14 @@ const sessionHandler = this.SessionHandler();
                 if(MediaUrl0===undefined){
                     MediaUrl0="";
                 }
-  
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0};
                 if(channel=="geoloc") {
-                     parameters["latitude"] = lat;
-                    parameters["longitude"] = long;
+                    contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "latitude":lat, "longitude":long};
+                    //parameters["latitude"] = lat;
+                    //parameters["longitude"] = long;
                 }
                 
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0};
+                
                 
                 if(post.From==TWILIO_OUTBOUND_NUMBER && req.query["contractNum"]!==undefined) {
                    contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
