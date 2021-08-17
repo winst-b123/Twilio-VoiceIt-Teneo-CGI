@@ -184,6 +184,9 @@ const sessionHandler = this.SessionHandler();
                 if(userInput===undefined) {
                     userInput = "";
                 }
+                if(userInput=="") {
+                   userInput="Coordinates";   
+                }
                 console.log("userInput: " + userInput);  
                 if(userInput!="hi") {
                 var post = qs.parse(body);
