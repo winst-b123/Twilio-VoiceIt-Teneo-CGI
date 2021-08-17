@@ -151,14 +151,16 @@ const sessionHandler = this.SessionHandler();
              /*   console.log("req.body: " );*/
             console.log(_stringify(req));
             console.log("body: " );
-            console.log(_stringify(body));
-            
-            if(body!==undefined && body.channel!==undefined) {
-                userInput = body.text;
-                channelParam = body.channel;
-                passedSessionId=body.parameters["session"];
-                lat=body.parameters["latitude"];
-                long=body.parameters["longitude"];
+            console.log(body);
+            var post = qs.parse(body);
+            console.log("post: " );
+            console.log(post);
+            if(body!==undefined && post.channel!==undefined) {
+                userInput = post.text;
+                channelParam = post.channel;
+                passedSessionId=post.parameters["session"];
+                lat= post.parameters["latitude"];
+                long=post.parameters["longitude"];
                 console.log("GEO LOC DETECTED " );
                 console.log(lat );
                  console.log(long );
@@ -189,8 +191,7 @@ const sessionHandler = this.SessionHandler();
                 }
                 console.log("userInput: " + userInput);  
                 if(userInput!="hi") {
-                var post = qs.parse(body);
-                //console.log("post: " );
+                
                 //console.log(_stringify(post));
                   var from = post.From;
                  //console.log(`from: ${from}`);
