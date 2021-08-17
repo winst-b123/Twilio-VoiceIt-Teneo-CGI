@@ -132,7 +132,7 @@ const sessionHandler = this.SessionHandler();
                 body += data;
             });
 
-            req.on('end', function () {
+            req.on('end', async function () {
             var phone = "";
             var teneoSessionId;
             var userInput;
