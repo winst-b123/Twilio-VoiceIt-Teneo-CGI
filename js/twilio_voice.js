@@ -129,7 +129,7 @@ const sessionHandler = this.SessionHandler();
 
             req.on('data', function (data) {
                 console.log(data.toString());
-                body += data.toString();
+                body += data;
             });
 
             req.on('end', async function () {
