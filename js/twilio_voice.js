@@ -156,9 +156,9 @@ const sessionHandler = this.SessionHandler();
             console.log("post: " );
             console.log(post);
             if(body!==undefined && body!="" && body!="{}") {
-                userInput = body.text;
-                channelParam = body.channel;
-                var params = body.parameters;
+                userInput = post.text;
+                channelParam = post.channel;
+                var params = post.parameters;
                 passedSessionId=params["session"];
                 lat= params["latitude"];
                 long=params["longitude"];
