@@ -145,25 +145,22 @@ const sessionHandler = this.SessionHandler();
             var daysSince;
             var email;
             var channelParam;
+            var long;
+            var lat;
                 
              /*   console.log("req.body: " );*/
             console.log(_stringify(req));
-             /*   console.log("body: " );
-            console.log(_stringify(body));*/
+            console.log("body: " );
+            console.log(_stringify(body));
             
-            /*if(req.body!=undefined && req.body.phone!=undefined && req.body.mode!=undefined) {
-                userInput = req.body.userInput;
-                phone = req.body.phone;
-                passedSessionId=req.body.session;
-                mode=req.body.mode;
-                contractNum =req.body.contractNum;
-                arrears=req.body.arrears;
-                fname=req.body.fname;
-                numMissed==req.body.numMissed;
-                daysSince=req.body.daysSince;
-                email=req.body.email;
+            if(body!=undefined && body.channel!=undefined && body.channel=='geoloc') {
+                userInput = body.text;
+                channelParam = body.channel;
+                passedSessionId=body.parameters["session"];
+                lat=body.parameters["latitude"];
+                long=body.parameters["longitude"];
             }
-            else {*/
+            else {
             phone = req.query["phone"];     
             passedSessionId=req.query["session"];  
             channelParam=req.query["channel"];  
@@ -179,7 +176,7 @@ const sessionHandler = this.SessionHandler();
             email = req.query["email"];
                 
                 
-             //}
+             }
               
                 if(userInput===undefined) {
                     userInput = "";
@@ -243,14 +240,16 @@ const sessionHandler = this.SessionHandler();
                 teneoSessionId=passedSessionId;   
                  console.log("session: " + teneoSessionId);
                 //userInput = "switchoversuccess"; 
-                sessionHandler.setSession(phone, teneoSessionId);
+                if(channel!="geoloc") {
+                  sessionHandler.setSession(phone, teneoSessionId);
+                }
             }       
                     
                     
             var TWILIO_MODE = "ivr";   
                  // get the caller id
                 const callSid = post.CallSid;
-                if(callSid===undefined) {
+                if(callSid===undefined && channel!="geoloc") {
                     if(post.From== TWILIO_OUTBOUND_NUMBER_WA || post.To==TWILIO_OUTBOUND_NUMBER_WA) {
                         TWILIO_MODE="whatsapp";
                     }
@@ -258,8 +257,11 @@ const sessionHandler = this.SessionHandler();
                         TWILIO_MODE="sms";
                     }
                 }
+                else if(channel=="geoloc") {
+                    TWILIO_MODE="none";
+                }
                 console.log("mode: " + TWILIO_MODE);  
-            if((post.From!= TWILIO_OUTBOUND_NUMBER_WA && post.From!=TWILIO_OUTBOUND_NUMBER) || TWILIO_MODE=="ivr") {
+            if((channel!="geoloc" && post.From!= TWILIO_OUTBOUND_NUMBER_WA && post.From!=TWILIO_OUTBOUND_NUMBER) || TWILIO_MODE=="ivr") {
   
                 console.log("contractNum: " + contractNum);
             // get message from user
@@ -293,6 +295,10 @@ const sessionHandler = this.SessionHandler();
                 if(channelParam=="geoloc") {
                     channel="geoloc";
                 }
+                else {
+                   teneoSessionId = sessionHandler.getSession(phone);
+                }
+                  
                 //console.log("Phone: " + phone);
 
                 // check if we have stored an engine sessionid for this caller
@@ -306,7 +312,7 @@ const sessionHandler = this.SessionHandler();
                    return;
                }*/
                 
-                teneoSessionId = sessionHandler.getSession(phone);
+               
                                 
                 console.log("session ID retrieved: " + teneoSessionId);
                 console.log("mode in inbound: " + TWILIO_MODE);        
@@ -329,6 +335,11 @@ const sessionHandler = this.SessionHandler();
                     MediaUrl0="";
                 }
   
+                if(channel=="geoloc") {
+                     parameters["latitude"] = lat;
+                    parameters["longitude"] = long;
+                }
+                
                 var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0};
                 
                 if(post.From==TWILIO_OUTBOUND_NUMBER && req.query["contractNum"]!==undefined) {
@@ -336,7 +347,7 @@ const sessionHandler = this.SessionHandler();
                                          , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
                 }
 
-                //console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
+                console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
                 
                 
                 // Add "_phone" to as key to session to make each session, regardless when using call/sms
@@ -427,6 +438,10 @@ const sessionHandler = this.SessionHandler();
               
                 }
                 else {
+                   if(channel=="geoloc") {
+                    TWILIO_MODE="none";
+                    }
+                    else {
                     sessionHandler.setSession(phone, teneoSessionId);
                      console.log("about to send message via " + TWILIO_MODE);
                     // return teneo answer to twilio
@@ -438,6 +453,7 @@ const sessionHandler = this.SessionHandler();
                         
                     sendTwilioMessage(teneoResponse, res, phone, TWILIO_OUTBOUND_NUMBER_WA);
                         console.log(" number " + TWILIO_OUTBOUND_NUMBER_WA);
+                    }
                     }
                 }
                   
