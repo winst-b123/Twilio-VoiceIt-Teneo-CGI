@@ -154,7 +154,7 @@ const sessionHandler = this.SessionHandler();
             console.log(body);
             var post = qs.parse(body);
 
-            if(body!==undefined && body!="" && body!="{}") {
+            if(body!==undefined && body!="" && body!="{}" && post.From===undefined) {
                 var parsed = JSON.parse(body);
                 userInput = parsed.text;
                 channelParam = parsed.channel;
