@@ -128,8 +128,8 @@ const sessionHandler = this.SessionHandler();
             let body = '';
 
             req.on('data', function (data) {
-                console.log(data);
-                body += data;
+                console.log(data.toString());
+                body += data.toString();
             });
 
             req.on('end', async function () {
