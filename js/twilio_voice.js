@@ -402,7 +402,7 @@ const sessionHandler = this.SessionHandler();
                             action: postPath.default,
                             actionOnEmptyResult: false,
                             language: twilioLanguage,
-                            timeout: 5,
+                            timeout: 15,
                             speechModel: "phone_call",
                             speechTimeout: "auto",
                             hints: hintText
