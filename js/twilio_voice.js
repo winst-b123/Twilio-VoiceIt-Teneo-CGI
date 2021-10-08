@@ -545,12 +545,12 @@ const sessionHandler = this.SessionHandler();
                 }
                 console.log("mode: " + TWILIO_MODE);    
             if(passedSessionId===undefined || passedSessionId===null || passedSessionId=="") {
-                teneoSessionId=""
+                teneoSessionId="";
             }
             else {
-                teneoSessionId=passedSessionId;   
-                 console.log("session: " + teneoSessionId);
-                sessionHandler.setSession(phone, teneoSessionId);
+                teneoSessionId="";   
+               //  console.log("session: " + teneoSessionId);
+                //sessionHandler.setSession(phone, teneoSessionId);
             }
             if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
