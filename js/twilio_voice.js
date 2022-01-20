@@ -548,7 +548,7 @@ const sessionHandler = this.SessionHandler();
                 teneoSessionId="";
             }
             else {
-                //teneoSessionId="";   
+                teneoSessionId=passedSessionId;   
                 console.log("session: " + teneoSessionId);
                sessionHandler.setSession(phone, teneoSessionId);
             }
