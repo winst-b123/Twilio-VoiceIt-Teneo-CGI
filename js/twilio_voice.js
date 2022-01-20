@@ -548,9 +548,9 @@ const sessionHandler = this.SessionHandler();
                 teneoSessionId="";
             }
             else {
-                teneoSessionId="";   
-               //  console.log("session: " + teneoSessionId);
-                //sessionHandler.setSession(phone, teneoSessionId);
+                //teneoSessionId="";   
+                console.log("session: " + teneoSessionId);
+               sessionHandler.setSession(phone, teneoSessionId);
             }
             if(TWILIO_MODE=="ivr") {
                 //const callSid = post.CallSid;
