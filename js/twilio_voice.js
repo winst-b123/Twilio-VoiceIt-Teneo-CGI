@@ -341,9 +341,9 @@ const sessionHandler = this.SessionHandler();
                 if(MediaUrl0===undefined){
                     MediaUrl0="";
                 }
-                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0};
+                var contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0, 'apiKey': apiKey};
                 if(channel=="geoloc") {
-                    contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "latitude":lat, "longitude":long};
+                    contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "latitude":lat, "longitude":long, 'apiKey': apiKey};
                     //parameters["latitude"] = lat;
                     //parameters["longitude"] = long;
                 }
