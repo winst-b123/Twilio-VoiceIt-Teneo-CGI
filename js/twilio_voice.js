@@ -11,6 +11,7 @@ const sessionMap = new Map();
 
 const {
     TENEO_ENGINE_URL,
+    API_KEY,
     TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN,
     TWILIO_OUTBOUND_NUMBER,
@@ -26,6 +27,7 @@ const postPath = {
 const teneoApi = TIE.init(TENEO_ENGINE_URL);
 const twilioLanguage = LANGUAGE_STT || 'en-US'; // See: https://www.twilio.com/docs/voice/twiml/gather#languagetags
 const twilioVoiceName = LANGUAGE_TTS || 'Polly.Joanna'; // See: https://www.twilio.com/docs/voice/twiml/say/text-speech#amazon-polly
+const apiKey = API_KEY || 'Not set';
 
 let twilioActions = {
     gather_default: '/gather_default',
@@ -147,6 +149,7 @@ const sessionHandler = this.SessionHandler();
             var channelParam;
             var long;
             var lat;
+            var channel;
                 
              /*   console.log("req.body: " );*/
             console.log(_stringify(req));
@@ -182,7 +185,6 @@ const sessionHandler = this.SessionHandler();
             numMissed = req.query["numMissed"];    
             daysSince = req.query["daysSince"];     
             email = req.query["email"];
-                
                 
              }
               
@@ -286,7 +288,7 @@ const sessionHandler = this.SessionHandler();
                         phone = post.From;
                     }
                 //}
-                var channel = TWILIO_MODE;
+                channel = TWILIO_MODE;
 
                  if(TWILIO_MODE=="whatsapp") {
                      channel="twilio-whatsapp";
@@ -350,7 +352,7 @@ const sessionHandler = this.SessionHandler();
                 
                 if(post.From==TWILIO_OUTBOUND_NUMBER && req.query["contractNum"]!==undefined) {
                    contentToTeneo = {'text': userInput, "parameters": JSON.stringify(parameters), "channel":channel, "mediaurl":MediaUrl0, "arrearsContractNum":contractNum
-                                         , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email};
+                                         , "arrearsAmt":arrears , "arrearsName":fname , "numMissed":numMissed, "daysSince":daysSince, "contractEmail":email, "apiKey": apiKey};
                 }
 
                 console.log("Content to Teneo INBOUND: " + JSON.stringify(contentToTeneo).toString());
