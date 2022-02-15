@@ -5,8 +5,7 @@
  * @type {{default: string}}
  */
 const postPath = {
-  default: '/',
-  outbound_call: "/outbound_call"
+  default: '/'
 };
 
 /**
@@ -16,7 +15,7 @@ const http = require('http');
 const path = require('path');
 const express = require('express');
 const twilio_voice = require(path.resolve('js', 'twilio_voice.js'));
-const bodyParser = require('body-parser');
+
 /**
  * Initialise variables using environment parameters
  */
@@ -26,7 +25,6 @@ const port = process.env.PORT || 3000;
 
 // initialize an Express application
 const app = express();
-//app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 const router = express.Router();
 
@@ -37,9 +35,6 @@ app.use(postPath.default, router);
 const twilio_voice_instance = new twilio_voice();
 
 router.all(postPath.default, twilio_voice_instance.handleInboundCalls());
-
-router.all(postPath.outbound_call, twilio_voice_instance.handleOutboundCalls());
-// twilio message comes in
 
 // start the express application
 http.createServer(app).listen(port, () => {
