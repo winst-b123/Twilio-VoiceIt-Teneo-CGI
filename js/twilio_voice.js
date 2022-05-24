@@ -19,7 +19,7 @@ const postPath = {
 };
 
 const teneoApi = TIE.init(TENEO_ENGINE_URL);
-const twilioLanguage = LANGUAGE_STT || 'en-US'; // See: https://www.twilio.com/docs/voice/twiml/gather#languagetags
+const twilioLanguage = LANGUAGE_STT || 'en-GB'; // See: https://www.twilio.com/docs/voice/twiml/gather#languagetags
 const twilioVoiceName = LANGUAGE_TTS || 'Polly.Joanna'; // See: https://www.twilio.com/docs/voice/twiml/say/text-speech#amazon-polly
 
 let twilioActions = {
@@ -57,7 +57,7 @@ class twilio_voice {
 
     // handle incoming twilio message
     handleInboundCalls() {
-
+        console.log("Twilio Language using: " + twilioLanguage)
         // initialise session handler, to store mapping between twillio CallSid and engine session id
         const sessionHandler = this.SessionHandler();
 
